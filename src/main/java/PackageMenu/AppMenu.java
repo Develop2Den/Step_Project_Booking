@@ -1,6 +1,6 @@
-package org.example.PackageMenu;
+package PackageMenu;
 
-import org.example.ErrorException.InvalidMenuItemException;
+import ErrorException.InvalidMenuItemException;
 
 import java.util.Scanner;
 

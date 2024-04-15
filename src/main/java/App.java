@@ -1,6 +1,4 @@
-package org.example;
-
-import org.example.PackageMenu.AppMenu;
+import PackageMenu.AppMenu;
 
 public class App
 {

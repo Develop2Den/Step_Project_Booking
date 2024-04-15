@@ -1,4 +1,4 @@
-package org.example.PackageMenu;
+package PackageMenu;
 
 public class FlightDisplay {
 

@@ -1,4 +1,4 @@
-package org.example.ErrorException;
+package ErrorException;
 
 public class InvalidMenuItemException extends Exception {
     public InvalidMenuItemException(String message) {
