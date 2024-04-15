@@ -33,7 +33,6 @@ public class ConsoleClass {
         System.out.println("Введіть ваше ім'я: ");
         String name = scanner.nextLine();
         this.name = name;
-        System.out.println("Данні введено, дякуємо!");
     }
 
     public String getSurname() {
@@ -44,7 +43,6 @@ public class ConsoleClass {
         System.out.println("Введіть ваше прізвище: ");
         String surname = scanner.nextLine();
         this.surname = surname;
-        System.out.println("Данні введено, дякуємо!");
     }
 
     public String getDestination() {
@@ -109,6 +107,7 @@ public class ConsoleClass {
 
     public void fullName() {
         setName();
+        scanner.nextLine();
         setSurname();
         System.out.println("Данні введено, дякуємо!");
     }

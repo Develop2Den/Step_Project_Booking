@@ -35,7 +35,7 @@ public class AppMenu {
                         break;
                     case "6":
                         isTrue = false;
-                        System.out.println("До побачення, будемо вас ради бачити знову!");
+                        System.out.println("До побачення, будемо ради вас бачити знову!");
                         break;
                     default:
                         throw new InvalidMenuItemException("Будь-ласка введіть коректне значення!");
