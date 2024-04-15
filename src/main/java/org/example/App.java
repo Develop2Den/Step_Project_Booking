@@ -1,10 +1,12 @@
 package org.example;
 
-public class App 
+import org.example.PackageMenu.AppMenu;
+
+public class App
 {
     public static void main( String[] args ) {
+        AppMenu.main(args);
 
-        System.out.println("Hello!!!!!!!");
 
     }
 }
