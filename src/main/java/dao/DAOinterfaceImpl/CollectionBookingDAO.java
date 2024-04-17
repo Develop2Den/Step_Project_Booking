@@ -1,6 +1,8 @@
-package dao.DAOinterfaceImpl;
 
-import dao.DAOinterface.BookingDAO;
+package DAO.DAOinterfaceImpl;
+
+import DAO.DAOinterface.BookingDAO;
+
 import entity.Booking;
 import utils.fileLoader.FileBookingLoaderBin;
 

@@ -3,10 +3,11 @@ package entity;
 import entity.enums.AviaCompany;
 import entity.enums.City;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
-public class Flight {
+public class Flight implements Serializable {
 
     private static int count = 1000;
     private AviaCompany aviaCompany;
