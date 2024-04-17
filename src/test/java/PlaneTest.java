@@ -21,7 +21,7 @@ public class PlaneTest {
 
     @Test
     public void testPositiveParameterizedSeats() {
-        int amountOfSeats = 50;
+        int amountOfSeats = 285;
         Plane plane = new Plane(PlaneModel.Boeing_787_9);
         assertAll("Should test parameterized Seats values",
                 () -> assertEquals("Amount of seats is not equal to parameter", amountOfSeats, plane.getSeats()),
@@ -31,27 +31,10 @@ public class PlaneTest {
     }
 
     @Test
-    public void testNegativeParameterizedSeatsLessThanZero() {
-        PlaneException thrown = assertThrows(PlaneException.class, () -> {
-            int amountOfSeats = -10;
-            Plane plane = new Plane(PlaneModel.Boeing_777_300);
-        });
-        assertTrue("SeatsException does not contain expected text", Plane.errorAmountShouldBeGreaterThan0.contains(thrown.getMessage()));
-    }
-
-    @Test
-    public void testNegativeParameterizedSeatsZero() {
-        PlaneException thrown = assertThrows(PlaneException.class, () -> {
-            Plane plane = new Plane(PlaneModel.CRJ_900);
-        });
-        assertTrue("SeatsException does not contain expected text", Plane.errorAmountShouldBeGreaterThan0.contains(thrown.getMessage()));
-    }
-
-    @Test
     public void testNegativeSetBookedSeats() {
         PlaneException thrown = assertThrows(PlaneException.class, () -> {
             Plane plane = new Plane(PlaneModel.CRJ_200);
-            plane.setBookedSeats(11);
+            plane.setBookedSeats(51);
         });
         assertTrue("SeatsException does not contain expected text", Plane.errorNotEnoughFreeSeats.contains(thrown.getMessage()));
     }

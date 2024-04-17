@@ -1,4 +1,6 @@
-package dao.DAOinterface;
+
+package DAO.DAOinterface;
+
 
 import entity.Booking;
 

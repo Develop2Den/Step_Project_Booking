@@ -3,7 +3,9 @@ package entity;
 import ErrorException.PlaneException;
 import entity.enums.PlaneModel;
 
-public class Plane {
+import java.io.Serializable;
+
+public class Plane implements Serializable {
 
     public static final int defaultSeatsAmount = 20;
     public static final String errorAmountShouldBeGreaterThan0 = "Кількість місць має бути > 0";
@@ -54,8 +56,7 @@ public class Plane {
     @Override
     public String toString() {
         return "Plane [ " +
-                "planeModel = " + planeModel +
-                ", seats = " + seats +
+                " seats = " + seats +
                 ", bookedSeats = " + bookedSeats +
                 ", availableSeats = " + getAvailableSeats() +
                 " ] ";

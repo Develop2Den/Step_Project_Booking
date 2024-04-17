@@ -1,6 +1,6 @@
-package service.serviseInterfaceImpl;
+package service.serviseInterface;
+import DAO.DAOinterface.BookingDAO;
 
-import dao.DAOinterface.BookingDAO;
 import dto.BookingFlightDTO;
 import entity.Booking;
 import entity.Passenger;
