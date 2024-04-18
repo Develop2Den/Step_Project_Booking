@@ -1,12 +1,15 @@
 package service.serviseInterfaceImpl;
 
 import DAO.DAOinterface.FlightDAO;
+import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterface.FlightService;
 import utils.fileLoader.FileLoaderBin;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FlightServiceImpl implements FlightService {
     private FlightDAO flightsDAO;
@@ -42,29 +45,34 @@ public class FlightServiceImpl implements FlightService {
     };
 
     @Override
-    public int getAllSeats() {
-        return flightsDAO.getAllSeats();
+    public int getAllSeats(Flight flight) {
+        return flightsDAO.getAllSeats(flight);
     };
 
     @Override
-    public int getAvailableSeats() {
-        return flightsDAO.getAvailableSeats();
+    public int getAvailableSeats(Flight flight) {
+        return flightsDAO.getAvailableSeats(flight);
     };
 
     @Override
-    public int getBookedSeats() {
-        return flightsDAO.getBookedSeats();
+    public int getBookedSeats(Flight flight) {
+        return flightsDAO.getBookedSeats(flight);
     };
 
     @Override
-    public void addFlight(Flight flight) {
-        flightsDAO.addFlight(flight);
+    public void addFlight() {
+        flightsDAO.addFlight();
     };
 
     @Override
     public void displayAllFlights() {
         flightsDAO.displayAllFlights();
     };
+
+    @Override
+    public void displayAllFlights(List<Flight> flights) {
+        flightsDAO.displayAllFlights(flights);
+    }
 
     @Override
     public void loadData() {
@@ -87,5 +95,22 @@ public class FlightServiceImpl implements FlightService {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Override
+    public void saveData() {
+        // TO DO
+    }
+
+    @Override
+    public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) {
+        return flightsDAO.getAllFlights().stream().filter(flight -> {
+            String city = flight.getDestination().name();
+            boolean b = (flight.getDate().getMonth()) == (searchFlightDTO.getDate().getMonth())
+                    && (flight.getDate().getDate()) == (searchFlightDTO.getDate().getDate())
+                    && city.equalsIgnoreCase(searchFlightDTO.getDestination())
+                    && flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity();
+            return b;
+        }).collect(Collectors.toList());
     }
 }

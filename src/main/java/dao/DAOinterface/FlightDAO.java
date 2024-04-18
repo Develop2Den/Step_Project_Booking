@@ -2,6 +2,8 @@
 package DAO.DAOinterface;
 
 import entity.Flight;
+
+import java.util.List;
 import java.util.Set;
 
 public interface FlightDAO {
@@ -16,15 +18,17 @@ public interface FlightDAO {
 
     void saveFlight(Flight flight);
 
-    int getAllSeats();
+    int getAllSeats(Flight flight);
 
-    int getAvailableSeats();
+    int getAvailableSeats(Flight flight);
 
-    int getBookedSeats();
+    int getBookedSeats(Flight flight);
 
-    void addFlight(Flight flight);
+    void addFlight();
 
     void displayAllFlights();
+
+    void displayAllFlights(List<Flight> flights);
 
     Set<Flight> generateRandomFlights();
 

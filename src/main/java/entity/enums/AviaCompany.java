@@ -6,7 +6,7 @@ public enum AviaCompany {
     BukovynaAirlines("BA"),
     DniproAvia("DA"),
     DonbassAero("DS"),
-    CremiaAir("CA"),
+    CrimeaAir("CA"),
     Euroline("EL"),
     IcarAirlines("IA"),
     KharkivAirlines("KA"),

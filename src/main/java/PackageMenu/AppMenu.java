@@ -1,12 +1,21 @@
 package PackageMenu;
 
+import DAO.DAOinterface.FlightDAO;
+import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import ErrorException.InvalidMenuItemException;
+import service.serviseInterfaceImpl.FlightServiceImpl;
 
 import java.util.Scanner;
 
 public class AppMenu {
 
     public static void main(String[] args) {
+        FlightDAO flightDAO = new CollectionFlightDAO();
+        FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
+        flightDAO.generateRandomFlights();
+        flightServiceImpl.sendData("flights.bin");
+        flightServiceImpl.loadData();
+
         ConsoleClass consoleClass = new ConsoleClass();
         Scanner scan = new Scanner(System.in);
         boolean isTrue = true;

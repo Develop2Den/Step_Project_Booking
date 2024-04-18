@@ -23,12 +23,14 @@ public class Flight implements Serializable {
         this.duration = duration;
         this.destination = destination;
         this.plane = plane;
-        this.flightNumber = getFlightNumber();
+        this.flightNumber = setFlightNumber();
         count++;
     }
 
+    public Flight() {
+    }
+
     public String getFlightNumber() {
-        this.flightNumber = String.valueOf(aviaCompany) + destination + count;
         return flightNumber;
     }
 
@@ -50,6 +52,38 @@ public class Flight implements Serializable {
 
     public int getSeats() {
         return plane.getSeats();
+    }
+
+    public int getAvailableSeats() {
+        return plane.getAvailableSeats();
+    }
+
+    public int getBookedSeats() {
+        return plane.getBookedSeats();
+    }
+
+    public void setAviaCompany(AviaCompany aviaCompany) {
+        this.aviaCompany = aviaCompany;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setDuration(Time duration) {
+        this.duration = duration;
+    }
+
+    public void setDestination(City destination) {
+        this.destination = destination;
+    }
+
+    public void setPlane(Plane plane) {
+        this.plane = plane;
+    }
+
+    public String setFlightNumber() {
+        return this.flightNumber = String.valueOf(aviaCompany) + destination + count++;
     }
 
     @Override

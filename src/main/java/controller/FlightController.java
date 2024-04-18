@@ -3,6 +3,7 @@ package controller;
 import entity.Flight;
 import service.serviseInterfaceImpl.FlightServiceImpl;
 
+import java.util.List;
 import java.util.Set;
 
 public class FlightController {
@@ -32,23 +33,27 @@ public class FlightController {
         flightServiceImpl.saveFlight(flight);
     };
 
-    public int getAllSeats() {
-        return flightServiceImpl.getAllSeats();
+    public int getAllSeats(Flight flight) {
+        return flightServiceImpl.getAllSeats(flight);
     };
 
-    public int getAvailableSeats() {
-        return flightServiceImpl.getAvailableSeats();
+    public int getAvailableSeats(Flight flight) {
+        return flightServiceImpl.getAvailableSeats(flight);
     };
 
-    public int getBookedSeats() {
-        return flightServiceImpl.getBookedSeats();
+    public int getBookedSeats(Flight flight) {
+        return flightServiceImpl.getBookedSeats(flight);
     };
 
-    public void addFlight(Flight flight) {
-        flightServiceImpl.addFlight(flight);
+    public void addFlight() {
+        flightServiceImpl.addFlight();
     };
 
     public void displayAllFlights() {
         flightServiceImpl.displayAllFlights();
     };
+
+    public void displayAllFlights(List<Flight> flights) {
+        flightServiceImpl.displayAllFlights(flights);
+    }
 }
