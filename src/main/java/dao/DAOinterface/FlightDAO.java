@@ -12,7 +12,7 @@ public interface FlightDAO {
 
     Flight getFlightByFlightNumber(String flightNumber);
 
-    boolean deleteFlight(int index);
+    boolean deleteFlight(String flightNumber);
 
     boolean deleteFlight(Flight flight);
 
@@ -20,11 +20,13 @@ public interface FlightDAO {
 
     int getAllSeats(Flight flight);
 
+    void setFlights(Set<Flight> flights);
+
     int getAvailableSeats(Flight flight);
 
     int getBookedSeats(Flight flight);
 
-    void addFlight();
+    void addFlight(Flight flight);
 
     void displayAllFlights();
 

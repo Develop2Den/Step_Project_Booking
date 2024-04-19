@@ -10,13 +10,13 @@ public interface FlightService {
 
     Set<Flight> getAllFlights();
     Flight getFlightByFlightNumber(String flightNumber);
-    boolean deleteFlight(int index);
+    boolean deleteFlight(String flightNumber);
     boolean deleteFlight(Flight flight);
     void saveFlight(Flight flight);
     int getAllSeats(Flight flight);
     int getAvailableSeats(Flight flight);
     int getBookedSeats(Flight flight);
-    void addFlight();
+    void addFlight(Flight flight);
     void displayAllFlights();
     void displayAllFlights(List<Flight> flights);
     void loadData();

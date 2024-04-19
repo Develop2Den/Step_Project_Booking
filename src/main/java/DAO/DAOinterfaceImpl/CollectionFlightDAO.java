@@ -31,6 +31,12 @@ public class CollectionFlightDAO implements FlightDAO {
     }
 
     @Override
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
+    }
+
+
+    @Override
     public Flight getFlightByFlightNumber(String flightNumber) {
         List<Flight> requiredFlight = this.flights.stream()
                 .filter(flight ->
@@ -41,14 +47,19 @@ public class CollectionFlightDAO implements FlightDAO {
     }
 
     @Override
-    public boolean deleteFlight(int index) {
-        // TO DO
+    public boolean deleteFlight(String flightNumber) {
+        List<Flight> requiredFlight = this.flights.stream()
+                .filter(flight ->
+                        (flight.getFlightNumber()).equals(flightNumber))
+                .toList();
+        if (requiredFlight.size() == 0) throw new FlightException(flightNumber);
+        flights.remove(requiredFlight.get(0));
         return false;
     }
 
     @Override
     public boolean deleteFlight(Flight flight) {
-        // TO DO
+        flights.remove(flight);
         return false;
     }
 
@@ -73,19 +84,9 @@ public class CollectionFlightDAO implements FlightDAO {
     }
 
     @Override
-    public void addFlight() {
-        // should be implementation of adding a flight from the console - change all default values to custom values
-        // TO DO
-        Flight flight = new Flight();
-        flight.setAviaCompany(AviaCompany.BukovynaAirlines);
-        flight.setDestination(City.AMSTERDAM);
-        flight.setDate(new Date(2024, Calendar.MAY, 15));
-        flight.setDuration(new Time(1, 45, 0));
-        flight.setPlane(new Plane(PlaneModel.CRJ_200));
-        flight.setFlightNumber();
-        System.out.println("FLIGHT NUMBER");
-        System.out.println(flight.getFlightNumber());
-        saveFlight(flight);
+    public void addFlight(Flight flight) {
+        Flight newFlight = flight;
+        saveFlight(newFlight);
     }
 
     @Override
@@ -130,7 +131,6 @@ public class CollectionFlightDAO implements FlightDAO {
 
     @Override
     public void loadData(Set flights) {
-        this.flights = new HashSet<>();
-        this.flights.addAll(flights);
+        this.setFlights(flights);
     }
 }

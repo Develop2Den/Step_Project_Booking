@@ -30,8 +30,8 @@ public class FlightServiceImpl implements FlightService {
     };
 
     @Override
-    public boolean deleteFlight(int index) {
-        return flightsDAO.deleteFlight(index);
+    public boolean deleteFlight(String flightNumber) {
+        return flightsDAO.deleteFlight(flightNumber);
     };
 
     @Override
@@ -60,8 +60,8 @@ public class FlightServiceImpl implements FlightService {
     };
 
     @Override
-    public void addFlight() {
-        flightsDAO.addFlight();
+    public void addFlight(Flight flight) {
+        flightsDAO.addFlight(flight);
     };
 
     @Override

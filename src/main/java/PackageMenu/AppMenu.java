@@ -7,6 +7,8 @@ import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import ErrorException.InvalidMenuItemException;
 import controller.BookingController;
 import controller.FlightController;
+import controller.BookingController;
+import controller.FlightController;
 import service.serviseInterface.BookingService;
 import service.serviseInterfaceImpl.BookingServiceImpl;
 import service.serviseInterfaceImpl.FlightServiceImpl;
@@ -17,8 +19,6 @@ public class AppMenu {
     public static void main(String[] args) {
         FlightDAO flightDAO = new CollectionFlightDAO();
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
-        flightDAO.generateRandomFlights();
-        flightServiceImpl.sendData("flights.bin");
         flightServiceImpl.loadData();
         FlightController flightController = new FlightController(flightServiceImpl);
 //        BookingDAO bookingDAO = new CollectionBookingDAO();

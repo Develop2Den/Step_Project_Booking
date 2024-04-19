@@ -2,6 +2,7 @@ package controller;
 
 import dto.SearchFlightDTO;
 import dto.SearchFlightDTO2;
+import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterfaceImpl.FlightServiceImpl;
 import java.util.List;
@@ -23,8 +24,8 @@ public class FlightController {
         return flightServiceImpl.getFlightByFlightNumber(flightNumber);
     };
 
-    public boolean deleteFlight(int index) {
-        return flightServiceImpl.deleteFlight(index);
+    public boolean deleteFlight(String flightNumber) {
+        return flightServiceImpl.deleteFlight(flightNumber);
     };
 
     public boolean deleteFlight(Flight flight) {
@@ -47,8 +48,8 @@ public class FlightController {
         return flightServiceImpl.getBookedSeats(flight);
     };
 
-    public void addFlight() {
-        flightServiceImpl.addFlight();
+    public void addFlight(Flight flight) {
+        flightServiceImpl.addFlight(flight);
     };
 
     public void displayAllFlights() {
@@ -59,5 +60,7 @@ public class FlightController {
         flightServiceImpl.displayAllFlights(flights);
     }
 
-    public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) { return flightServiceImpl.searchFlight(searchFlightDTO);}
+    public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO2) {
+        return flightServiceImpl.searchFlight(searchFlightDTO2);
+    }
 }
