@@ -9,6 +9,7 @@ public class AppMenu {
     public static void main(String[] args) {
         ConsoleClass consoleClass = new ConsoleClass();
         Scanner scan = new Scanner(System.in);
+//        boolean isLogin = false;
         boolean isTrue = true;
 
         while (isTrue) {
@@ -22,7 +23,7 @@ public class AppMenu {
                         consoleClass.onlineScoreboard();
                         break;
                     case "2":
-                        consoleClass.setFlightId();
+                        consoleClass.setFlightNumber();
                         break;
                     case "3":
                         consoleClass.flightDetails();
@@ -33,7 +34,11 @@ public class AppMenu {
                     case "5":
                         consoleClass.fullName();
                         break;
-                    case "6":
+//                    case "6":
+//                        isLogin = false;
+//                        System.out.println("Вихід з облікового запису.");
+//                        break;
+                    case "7":
                         isTrue = false;
                         System.out.println("До побачення, будемо ради вас бачити знову!");
                         break;
