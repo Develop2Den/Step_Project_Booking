@@ -20,6 +20,8 @@ public interface FlightDAO {
 
     int getAllSeats(Flight flight);
 
+    void setFlights(Set<Flight> flights);
+
     int getAvailableSeats(Flight flight);
 
     int getBookedSeats(Flight flight);
