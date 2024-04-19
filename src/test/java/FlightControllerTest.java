@@ -29,7 +29,7 @@ public class FlightControllerTest {
 
     @Test
     void getFlightByFlightNumberTest() {
-        String flightNumber = "LVRM1046";
+        String flightNumber = "SAPG5316";
         flightServiceImpl.loadData();
         Flight flight = flightServiceImpl.getFlightByFlightNumber(flightNumber);
         System.out.println(flight);

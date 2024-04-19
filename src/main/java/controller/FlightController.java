@@ -23,8 +23,8 @@ public class FlightController {
         return flightServiceImpl.getFlightByFlightNumber(flightNumber);
     };
 
-    public boolean deleteFlight(int index) {
-        return flightServiceImpl.deleteFlight(index);
+    public boolean deleteFlight(String flightNumber) {
+        return flightServiceImpl.deleteFlight(flightNumber);
     };
 
     public boolean deleteFlight(Flight flight) {
@@ -47,8 +47,8 @@ public class FlightController {
         return flightServiceImpl.getBookedSeats(flight);
     };
 
-    public void addFlight() {
-        flightServiceImpl.addFlight();
+    public void addFlight(Flight flight) {
+        flightServiceImpl.addFlight(flight);
     };
 
     public void displayAllFlights() {
