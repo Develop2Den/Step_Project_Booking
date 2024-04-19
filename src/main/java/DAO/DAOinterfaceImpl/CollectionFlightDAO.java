@@ -35,7 +35,7 @@ public class CollectionFlightDAO implements FlightDAO {
         List<Flight> requiredFlight = this.flights.stream()
                 .filter(flight ->
                         (flight.getFlightNumber()).equals(flightNumber))
-                .collect(Collectors.toList());
+                .toList();
         if (requiredFlight.size() == 0) throw new FlightException(flightNumber);
         return requiredFlight.get(0);
     }
