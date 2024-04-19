@@ -30,8 +30,8 @@ public class FlightServiceImpl implements FlightService {
     };
 
     @Override
-    public boolean deleteFlight(int index) {
-        return flightsDAO.deleteFlight(index);
+    public boolean deleteFlight(String flightNumber) {
+        return flightsDAO.deleteFlight(flightNumber);
     };
 
     @Override
@@ -60,8 +60,8 @@ public class FlightServiceImpl implements FlightService {
     };
 
     @Override
-    public void addFlight() {
-        flightsDAO.addFlight();
+    public void addFlight(Flight flight) {
+        flightsDAO.addFlight(flight);
     };
 
     @Override
@@ -106,10 +106,12 @@ public class FlightServiceImpl implements FlightService {
     public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) {
         return flightsDAO.getAllFlights().stream().filter(flight -> {
             String city = flight.getDestination().name();
+            System.out.println(city);
             boolean b = (flight.getDate().getMonth()) == (searchFlightDTO.getDate().getMonth())
                     && (flight.getDate().getDate()) == (searchFlightDTO.getDate().getDate())
                     && city.equalsIgnoreCase(searchFlightDTO.getDestination())
                     && flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity();
+            System.out.println(b);
             return b;
         }).collect(Collectors.toList());
     }

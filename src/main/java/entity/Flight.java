@@ -88,13 +88,13 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return "Flight [ " +
-                "aviaCompany = " + aviaCompany +
+        String nameFormat = destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
+        return "AviaCompany = \"" + aviaCompany.name() + "\"" +
                 ", flightNumber = '" + flightNumber + '\'' +
-                ", date = " + date +
-                ", duration = " + duration +
-                ", destination = " + destination +
-                ", plane = " + plane +
-                " ]";
+                ", date = " + date.getDate() + "/" + date.getMonth() + "/" + date.getYear() +
+                ", duration = " + duration.getHours() + ":" + duration.getMinutes() +
+                ", destination = " + nameFormat +
+                ", booked seats = " + plane.getBookedSeats() +
+                ", available seats = " + plane.getSeats();
     }
 }

@@ -1,170 +1,125 @@
 package PackageMenu;
 
+import ErrorException.InvalidMenuItemException;
+import controller.BookingController;
+import controller.FlightController;
+import dto.BookingFlightDTO;
+import dto.SearchFlightDTO2;
+import entity.Flight;
+import entity.Passenger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ConsoleClass {
+    private final FlightController flightController;
+    private final BookingController bookingController;
+
+    public ConsoleClass(FlightController flightController, BookingController bookingController) {
+        this.flightController = flightController;
+        this.bookingController = bookingController;
+    }
+
     Scanner scanner = new Scanner(System.in);
-
-     private String name;
-     private String surname;
-     private String destination;
-     private String date;
-     private String time;
-     private int flightId;
-     private int reservationId;
-     private int countPassengers;
-     private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
-
-
+    private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
     public List<String> getNewMenu() {
         return newMenu;
     }
-
-    public void setNewMenu(List<String> menu) {
-        this.newMenu = menu;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime() {
-        System.out.println("Введіть час рейсу (в HH:mm): ");
-        String time = scanner.nextLine();
-        this.time = time;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName() {
+    public String setName() {
         System.out.println("Введіть ваше ім'я: ");
         String name = scanner.nextLine();
-        this.name = name;
+        return name;
     }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname() {
+    public String setSurname() {
         System.out.println("Введіть ваше прізвище: ");
         String surname = scanner.nextLine();
-        this.surname = surname;
+        return surname;
     }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination() {
+    public String setDestination() {
         System.out.println("Введіть пункт призначення: ");
         String destination = scanner.nextLine();
-        this.destination = destination;
+        return destination;
     }
-
-    public int getFlightId() {
-        return flightId;
+    public void setFlightNumber() {
+        System.out.println("Введіть номер рейсу: ");
+        String flightId = scanner.nextLine();
+        System.out.println(flightController.getFlightByFlightNumber(flightId));
     }
-
-    public void setFlightId() {
-        System.out.println("Введіть ID рейсу: ");
-        int flightId = scanner.nextInt();
-        this.flightId = flightId;
-        System.out.println("Данні введено, дякуємо!");
-    }
-
-    public int getReservationId() {
-        return reservationId;
-    }
-
     public void setReservationId() {
         System.out.println("Введіть ID бронювання: ");
         int reservationId = scanner.nextInt();
-        this.reservationId = reservationId;
-        System.out.println("Данні введено, дякуємо!");
+        bookingController.cancelBooking(reservationId);
     }
-
-    public int getCountPassengers() {
-        return countPassengers;
-    }
-
-    public void setCountPassengers() {
+    public int setCountPassengers() {
         System.out.println("Введіть кількість пасажирів: ");
-        int countPassengers = scanner.nextInt();
-        this.countPassengers = countPassengers;
+        int passengerCount = scanner.nextInt();
+        return passengerCount;
     }
+    public Date setDate() {
+        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
+        String inputDateStr = scanner.nextLine();
 
-    public String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(inputDateStr);
+        } catch (ParseException e) {
+            System.out.println("Невірний формат дати!");
+            e.printStackTrace();
+        }
+        System.out.println(date);
         return date;
     }
-
-    public void setDate() {
-        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy): ");
-        String date = scanner.nextLine();
-        this.date = date;
+    public void flightDetails() throws InvalidMenuItemException {
+        String dest = setDestination();
+        Date date = setDate();
+        int countPassengers = setCountPassengers();
+        SearchFlightDTO2 infoFlight = new SearchFlightDTO2(dest, date, countPassengers);
+        List<Flight> flightList = flightController.searchFlight(infoFlight);
+        if (flightList.isEmpty()) {
+            System.out.println("Немає відповідних рейсів!");
+            return;
+        }
+        IntStream.range(0, flightList.size())
+                .mapToObj(index -> (index + 1) + ". " + flightList.get(index))
+                .forEach(System.out::println);
+        System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
+        int choice = scanner.nextInt();
+        if (choice == 0) {
+            return;
+        } else if (choice < 0 || choice > flightList.size()) {
+            throw new InvalidMenuItemException("Будь-ласка введіть коректне значення!");
+        }
+        Flight selectedFlight = flightList.get(choice - 1);
+        IntStream.range(0, countPassengers)
+                .forEach(i -> {
+                    String name = setName();
+                    scanner.nextLine();
+                    String surname = setSurname();
+                    bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
+                });
     }
-
-    public void flightDetails() {
-        setDestination();
-        scanner.nextLine();
-        setDate();
-        setTime();
-        setCountPassengers();
-        System.out.println("Данні введено, дякуємо!");
-    }
-
     public void fullName() {
-        setName();
-        scanner.nextLine();
-        setSurname();
-        System.out.println("Данні введено, дякуємо!");
+        bookingController.displayAllBookingByPassenger(new Passenger(setName(),setSurname()));
     }
     public void onlineScoreboard() {
         System.out.println("Список рейсів: ");
-        for (FlightDisplay.Flight flight : FlightDisplay.Flight.values()) {
-            System.out.println("Рейс " + flight.getDepartureCity() + " - " + flight.getDestination() + " (" + flight.getDepartureTime() + ")");
-        }
+        flightController.displayAllFlights();
         System.out.println("==========================================================================================");
     }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ConsoleClass{")
-                .append("name='").append(name).append('\'')
-                .append(", surname='").append(surname).append('\'')
-                .append(", destination='").append(destination).append('\'')
-                .append(", date='").append(date).append('\'')
-                .append(", time='").append(time).append('\'')
-                .append(", flightId=").append(flightId)
-                .append(", reservationId=").append(reservationId)
-                .append(", countPassengers=").append(countPassengers)
-                .append('}');
-        return sb.toString();
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ConsoleClass that = (ConsoleClass) o;
-        return flightId == that.flightId &&
-                reservationId == that.reservationId &&
-                countPassengers == that.countPassengers &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(surname, that.surname) &&
-                Objects.equals(destination, that.destination) &&
-                Objects.equals(date, that.date) &&
-                Objects.equals(time, that.time);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(name, surname, destination, date, time, flightId, reservationId, countPassengers);
-        return result;
-    }
+//    public boolean authenticate() {
+//        Map<String, String> users = null;
+//        System.out.print("Введіть логин: ");
+//        String username = scanner.nextLine().trim();
+//        System.out.print("Введіть пароль: ");
+//        String password = scanner.nextLine().trim();
+//
+//        return users.containsKey(username) && users.get(username).equals(password);
+//    }
 }
