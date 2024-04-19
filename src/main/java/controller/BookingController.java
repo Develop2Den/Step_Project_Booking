@@ -27,4 +27,7 @@ public class BookingController {
     public void displayAllPassengers(){
         bookingService.displayItems(bookingService.getAllPassengers());
     }
+    public void cancelBooking(int id) {
+        bookingService.cancelBooking(id);
+    }
 }
