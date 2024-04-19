@@ -28,7 +28,7 @@ public class AppMenu {
 
         ConsoleClass consoleClass = new ConsoleClass(flightController, bookingController);
         Scanner scan = new Scanner(System.in);
-        boolean isLogin = false;
+//        boolean isLogin = false;
         boolean isTrue = true;
 
         while (isTrue) {
