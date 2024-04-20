@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -8,17 +9,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Alexander Isai on 14.04.2024.
  */
-public class Booking {
+public class Booking implements Serializable {
 
-    private static final AtomicInteger nextId = new AtomicInteger(1);
     private int id;
     private Passenger passenger;
     private Flight flight;
 
-    public Booking(Passenger passenger, Flight flight) {
-        this.id = nextId.getAndIncrement();
+    public Booking(Passenger passenger, Flight flight, int id) {
+        this.id = id;
         this.passenger = passenger;
         this.flight = flight;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -40,6 +44,7 @@ public class Booking {
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
+
 
     @Override
     public boolean equals(Object o) {
