@@ -29,10 +29,18 @@ public class FlightControllerTest {
 
     @Test
     void getFlightByFlightNumberTest() {
-        String flightNumber = "SAPG5316";
+        String flightNumber = "DAMD5464";
         flightServiceImpl.loadData();
-        Flight flight = flightServiceImpl.getFlightByFlightNumber(flightNumber);
+        Flight flight = flightController.getFlightByFlightNumber(flightNumber);
         System.out.println(flight);
         assertEquals(flight.getFlightNumber(), flightNumber);
+    }
+
+    @Test
+    void getAllFlightDetails() {
+        String flightNumber = "DSPG5494";
+        flightServiceImpl.loadData();
+        Flight flight = flightController.getFlightByFlightNumber(flightNumber);
+        System.out.println(flightController.getSpecificFlightDetails(flight));
     }
 }

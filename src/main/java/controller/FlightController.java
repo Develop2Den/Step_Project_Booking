@@ -62,4 +62,8 @@ public class FlightController {
     public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO2) {
         return flightServiceImpl.searchFlight(searchFlightDTO2);
     }
+
+    public String getSpecificFlightDetails(Flight flight) {
+        return flightServiceImpl.getSpecificFlightDetails(flight);
+    }
 }

@@ -23,4 +23,5 @@ public interface FlightService {
     void sendData(String filePath);
     void saveData();
     List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO);
+    String getSpecificFlightDetails(Flight flight);
 }

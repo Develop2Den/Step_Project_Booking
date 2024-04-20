@@ -113,4 +113,9 @@ public class FlightServiceImpl implements FlightService {
             return b;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public String getSpecificFlightDetails(Flight flight) {
+        return flightsDAO.getSpecificFlightDetails(flight);
+    }
 }

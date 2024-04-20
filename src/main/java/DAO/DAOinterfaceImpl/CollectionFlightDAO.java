@@ -47,7 +47,7 @@ public class CollectionFlightDAO implements FlightDAO {
     }
 
     @Override
-    public String getAllFlightDetails(Flight flight) {
+    public String getSpecificFlightDetails(Flight flight) {
         return flight.getAllFlightDetails();
     }
 
