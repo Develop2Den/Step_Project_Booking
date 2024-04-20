@@ -48,14 +48,6 @@ public class FlightServiceImplTest {
         List<Flight> filteredFlights = flightServiceImpl.searchFlight(sfdto);
         System.out.println("Results:");
         flightServiceImpl.displayAllFlights(filteredFlights);
-//        Results:
-//        Flight [ aviaCompany = IA, flightNumber = 'IAAM7700', date = Wed Apr 16 07:46:00 EDT 3924, duration = 04:56:00, destination = AM, plane = Plane [  seats = 304, bookedSeats = 0, availableSeats = 304 ]  ]
-//        Flight [ aviaCompany = LV, flightNumber = 'LVAM6726', date = Wed Apr 16 20:18:00 EDT 3924, duration = 01:48:00, destination = AM, plane = Plane [  seats = 79, bookedSeats = 0, availableSeats = 79 ]  ]
-//        Flight [ aviaCompany = SA, flightNumber = 'SAAM5682', date = Wed Apr 16 19:03:00 EDT 3924, duration = 01:13:00, destination = AM, plane = Plane [  seats = 273, bookedSeats = 0, availableSeats = 273 ]  ]
-//        Flight [ aviaCompany = AG, flightNumber = 'AGAM8560', date = Wed Apr 16 10:28:00 EDT 3924, duration = 04:03:00, destination = AM, plane = Plane [  seats = 65, bookedSeats = 0, availableSeats = 65 ]  ]
-//        Flight [ aviaCompany = EL, flightNumber = 'ELAM6120', date = Wed Apr 16 21:58:00 EDT 3924, duration = 04:08:00, destination = AM, plane = Plane [  seats = 285, bookedSeats = 0, availableSeats = 285 ]  ]
-//        Flight [ aviaCompany = LA, flightNumber = 'LAAM8228', date = Wed Apr 16 05:21:00 EDT 3924, duration = 02:07:00, destination = AM, plane = Plane [  seats = 65, bookedSeats = 0, availableSeats = 65 ]  ]
-//        Flight [ aviaCompany = DS, flightNumber = 'DSAM5904', date = Wed Apr 16 10:11:00 EDT 3924, duration = 02:11:00, destination = AM, plane = Plane [  seats = 234, bookedSeats = 0, availableSeats = 234 ]  ]
     }
 
     @Test
@@ -65,7 +57,5 @@ public class FlightServiceImplTest {
         flightServiceImpl.loadData();
         flightServiceImpl.displayAllFlights();
         Flight flight = flightServiceImpl.getFlightByFlightNumber("KAVN7630");
-        System.out.println("Result " + flight);
-        //Result Flight [ aviaCompany = KA, flightNumber = 'KAVN7630', date = Wed Apr 02 19:36:00 EDT 3924, duration = 03:07:00, destination = VN, plane = Plane [  seats = 273, bookedSeats = 0, availableSeats = 273 ]  ]
     }
 }

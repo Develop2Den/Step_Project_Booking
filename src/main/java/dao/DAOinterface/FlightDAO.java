@@ -12,7 +12,7 @@ public interface FlightDAO {
 
     Flight getFlightByFlightNumber(String flightNumber);
 
-//    String getAllFlightDetails(Flight flight);
+    String getSpecificFlightDetails(Flight flight);
 
     boolean deleteFlight(String flightNumber);
 

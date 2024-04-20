@@ -99,7 +99,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void saveData() {
-        // TO DO
+        // save in data base
     }
 
     @Override
@@ -112,5 +112,10 @@ public class FlightServiceImpl implements FlightService {
                     && flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity();
             return b;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getSpecificFlightDetails(Flight flight) {
+        return flightsDAO.getSpecificFlightDetails(flight);
     }
 }
