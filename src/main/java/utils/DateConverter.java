@@ -1,8 +1,11 @@
 package utils;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * This is a date converter from a given string to a long number
@@ -22,5 +25,17 @@ public class DateConverter {
         LocalDate birthDateLocal = Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return birthDateLocal.format(formatter);
+    }
+
+    public static Date stringToDate(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        Date newDate = null;
+        try {
+            newDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            System.out.println("Невірний формат дати!");
+            e.printStackTrace();
+        }
+        return newDate;
     }
 }
