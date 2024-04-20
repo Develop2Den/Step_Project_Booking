@@ -89,12 +89,31 @@ public class Flight implements Serializable {
     @Override
     public String toString() {
         String nameFormat = destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
-        return "AviaCompany = \"" + aviaCompany.name() + "\"" +
-                ", flightNumber = '" + flightNumber + '\'' +
-                ", date = " + date.getDate() + "/" + date.getMonth() + "/" + date.getYear() +
-                ", duration = " + duration.getHours() + ":" + duration.getMinutes() +
-                ", destination = " + nameFormat +
-                ", booked seats = " + plane.getBookedSeats() +
-                ", available seats = " + plane.getSeats();
+        return String.format("%s %s %s/%s/%s %s:%s",
+                flightNumber,
+                nameFormat,
+                date.getDate(),
+                date.getMonth(),
+                date.getYear(),
+                date.getHours(),
+                date.getMinutes());
+    }
+
+    public String getAllFlightDetails() {
+        String nameFormat = destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
+        return String.format("%s %s %s/%s/%s %s:%s; duration %s:%s; managed by \"%s\"; available seats: %s, booked seats: %s",
+                flightNumber,
+                nameFormat,
+                date.getDate(),
+                date.getMonth(),
+                date.getYear(),
+                date.getHours(),
+                date.getMinutes(),
+                duration.getHours(),
+                duration.getMinutes(),
+                aviaCompany.name(),
+                plane.getAvailableSeats(),
+                plane.getBookedSeats()
+        );
     }
 }

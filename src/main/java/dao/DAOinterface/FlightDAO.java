@@ -12,6 +12,8 @@ public interface FlightDAO {
 
     Flight getFlightByFlightNumber(String flightNumber);
 
+    String getAllFlightDetails(Flight flight);
+
     boolean deleteFlight(String flightNumber);
 
     boolean deleteFlight(Flight flight);

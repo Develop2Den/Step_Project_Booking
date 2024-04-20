@@ -42,8 +42,13 @@ public class CollectionFlightDAO implements FlightDAO {
                 .filter(flight ->
                         (flight.getFlightNumber()).equals(flightNumber))
                 .toList();
-        if (requiredFlight.size() == 0) throw new FlightException(flightNumber);
+        if (requiredFlight.isEmpty()) throw new FlightException(flightNumber);
         return requiredFlight.get(0);
+    }
+
+    @Override
+    public String getAllFlightDetails(Flight flight) {
+        return flight.getAllFlightDetails();
     }
 
     @Override
@@ -52,7 +57,7 @@ public class CollectionFlightDAO implements FlightDAO {
                 .filter(flight ->
                         (flight.getFlightNumber()).equals(flightNumber))
                 .toList();
-        if (requiredFlight.size() == 0) throw new FlightException(flightNumber);
+        if (requiredFlight.isEmpty()) throw new FlightException(flightNumber);
         flights.remove(requiredFlight.get(0));
         return false;
     }
@@ -85,8 +90,7 @@ public class CollectionFlightDAO implements FlightDAO {
 
     @Override
     public void addFlight(Flight flight) {
-        Flight newFlight = flight;
-        saveFlight(newFlight);
+        saveFlight(flight);
     }
 
     @Override

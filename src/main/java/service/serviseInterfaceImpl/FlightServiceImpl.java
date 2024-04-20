@@ -99,19 +99,17 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void saveData() {
-        // TO DO
+        // save in data base
     }
 
     @Override
     public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) {
         return flightsDAO.getAllFlights().stream().filter(flight -> {
             String city = flight.getDestination().name();
-            System.out.println(city);
             boolean b = (flight.getDate().getMonth()) == (searchFlightDTO.getDate().getMonth())
                     && (flight.getDate().getDate()) == (searchFlightDTO.getDate().getDate())
                     && city.equalsIgnoreCase(searchFlightDTO.getDestination())
                     && flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity();
-            System.out.println(b);
             return b;
         }).collect(Collectors.toList());
     }
