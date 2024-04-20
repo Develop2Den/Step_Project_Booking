@@ -24,16 +24,14 @@ public class FileBookingLoaderBin {
         }
     }
     public List<Booking> getDataFromFile() {
-        if (!file.exists()) {
+        File file = new File("booking.bin");
+        List<Booking> bookingList;
+        if (!file.exists() || file.length() == 0) {
             return new ArrayList<>();
         }
-        List<Booking> bookingList = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            if (ois.available() > 0) {
-                bookingList = (List<Booking>) ois.readObject();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            bookingList = (List<Booking>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e){
             throw new RuntimeException(e);
         }
         return bookingList;
