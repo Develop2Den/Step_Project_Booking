@@ -19,6 +19,8 @@ public class CollectionBookingDAO implements BookingDAO {
     private List<Booking> bookings;
 
     public CollectionBookingDAO() {
+        this.bookingLoaderBin = new FileBookingLoaderBin();
+
         this.bookings = getAllBooking();
     }
     @Override

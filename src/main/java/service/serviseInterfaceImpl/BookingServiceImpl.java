@@ -22,6 +22,14 @@ public class BookingServiceImpl implements BookingService {
         this.bookingDAO = bookingDAO;
     }
 
+    int createBookingId(){
+        return getAllBookings().stream()
+                .filter(Objects::nonNull)
+                .mapToInt(Booking::getId)
+                .max()
+                .orElse(0) + 1;
+    }
+
     @Override
     public void createNewBooking(BookingFlightDTO bookingFlightDTO) {
         Passenger passenger = new Passenger(bookingFlightDTO.getName(), bookingFlightDTO.getSurname());
@@ -29,16 +37,23 @@ public class BookingServiceImpl implements BookingService {
         if(index >= 0){
             passenger = getAllPassengers().get(index);
         }
-        Booking booking = new Booking(passenger, bookingFlightDTO.getFlight());
+        Booking booking = new Booking(passenger, bookingFlightDTO.getFlight(), createBookingId());
+        System.out.println("Booking for passenger " + passenger);
         passenger.addBooking(booking);
         bookingDAO.saveBooking(booking);
     }
 
     @Override
     public List<Booking> getAllBookingByPassenger(Passenger passenger) {
-        return bookingDAO.getAllBooking().stream()
+        List<Booking> aaa = getAllBookings();
+        System.out.println(aaa);
+
+        List<Booking> bbb = bookingDAO.getAllBooking().stream()
                 .filter(booking -> booking != null && booking.getPassenger().equals(passenger))
                 .toList();
+
+        System.out.println(bbb);
+        return bbb;
     }
 
     @Override

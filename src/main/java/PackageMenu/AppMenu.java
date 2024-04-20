@@ -1,10 +1,13 @@
 package PackageMenu;
 
+import DAO.DAOinterface.BookingDAO;
 import DAO.DAOinterface.FlightDAO;
+import DAO.DAOinterfaceImpl.CollectionBookingDAO;
 import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import ErrorException.InvalidMenuItemException;
 import controller.BookingController;
 import controller.FlightController;
+import service.serviseInterfaceImpl.BookingServiceImpl;
 import service.serviseInterfaceImpl.FlightServiceImpl;
 
 import java.util.Scanner;
@@ -15,14 +18,13 @@ public class AppMenu {
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
         flightServiceImpl.loadData();
         FlightController flightController = new FlightController(flightServiceImpl);
-//        BookingDAO bookingDAO = new CollectionBookingDAO();
-//        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
-        BookingController bookingController = null;
-//                = new BookingController(bookingService);
+        BookingDAO bookingDAO = new CollectionBookingDAO();
+        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
+        BookingController bookingController = new BookingController(bookingService);
 
         ConsoleClass consoleClass = new ConsoleClass(flightController, bookingController);
         Scanner scan = new Scanner(System.in);
-//        boolean isLogin = false;
+        boolean isLogin = false;
         boolean isTrue = true;
 
         while (isTrue) {
