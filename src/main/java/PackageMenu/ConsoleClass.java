@@ -46,16 +46,16 @@ public class ConsoleClass {
 
     public String setName() {
         System.out.println("Введіть ваше ім'я: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
     public String setSurname() {
         System.out.println("Введіть ваше прізвище: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
     public String setDestination() {
         while (true) {
             System.out.println("Введіть пункт призначення: ");
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
             boolean isValidCity = Arrays.stream(City.values())
                     .map(City::name)
                     .anyMatch(cityName -> cityName.equalsIgnoreCase(input));
@@ -72,22 +72,47 @@ public class ConsoleClass {
             String flightId = scanner.nextLine();
             System.out.println(flightController.getFlightByFlightNumber(flightId));
         } catch (FlightException e) {
-            System.out.println("Помилка: " + e.getMessage());
+            System.out.println("\u001B[31m" + "Помилка: " + "\u001B[0m" + e.getMessage());
         }
     }
     public void setReservationId() {
-        System.out.println("Введіть ID бронювання: ");
-        String reservationId = scanner.nextLine();
-        bookingController.cancelBooking(Integer.parseInt(reservationId));
+        int count = 0;
+        boolean isValid = false;
+        do {
+            System.out.println("Введіть ID бронювання: ");
+            String reservationId = scanner.nextLine();
+            try {
+                count = Integer.parseInt(reservationId);
+                isValid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
+            }
+        } while (!isValid);
+        bookingController.cancelBooking(count);
     }
     public int setCountPassengers() {
-        System.out.println("Введіть кількість пасажирів: ");
-        String passengerCount = scanner.nextLine();
-        return Integer.parseInt(passengerCount);
+        int count = 0;
+        boolean isValid = false;
+        do {
+            System.out.println("Введіть кількість пасажирів: ");
+            String passengerCount = scanner.nextLine();
+            try {
+                count = Integer.parseInt(passengerCount);
+                isValid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
+            }
+        } while (!isValid);
+        return count;
     }
     public Date setDate() {
-        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy hh:mm): ");
-        return stringToDate(scanner.nextLine());
+        Date date = null;
+        while (date == null) {
+            System.out.print("Введите дату в формате dd/MM/yyyy hh:mm: ");
+            String input = scanner.nextLine();
+            date = stringToDate(input);
+        }
+        return date;
     }
     public void flightDetails() throws InvalidMenuItemException {
         String dest = setDestination();
@@ -103,19 +128,25 @@ public class ConsoleClass {
         IntStream.range(0, flightList.size())
                 .mapToObj(index -> (index + 1) + ". " + flightController.getSpecificFlightDetails(flightList.get(index)))
                 .forEach(System.out::println);
-        System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        if (choice == 0) {
-            return;
-        } else if (choice < 0 || choice > flightList.size()) {
-            throw new InvalidMenuItemException("Будь-ласка введіть коректне значення!");
-        }
+        int choice;
+        do {
+            System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
+            while (!scanner.hasNextInt()) {
+                System.out.println( "\u001B[31m" + "Будь ласка, введіть число: " + "\u001B[0m");
+                scanner.next();
+            }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice == 0) {
+                return;
+            } else if (choice < 0 || choice > flightList.size()) {
+                System.out.println( "\u001B[31m" + "Будь-ласка введіть коректне значення!" + "\u001B[0m");
+            }
+        } while (choice < 0 || choice > flightList.size());
         Flight selectedFlight = flightList.get(choice - 1);
         IntStream.range(0, countPassengers)
                 .forEach(i -> {
                     String name = setName();
-                    scanner.nextLine();
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });

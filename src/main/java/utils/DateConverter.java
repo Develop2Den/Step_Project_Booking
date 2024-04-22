@@ -35,7 +35,6 @@ public class DateConverter {
             System.out.println(newDate);
         } catch (ParseException e) {
             System.out.println("Невірний формат дати!");
-            e.printStackTrace();
         }
         return newDate;
     }

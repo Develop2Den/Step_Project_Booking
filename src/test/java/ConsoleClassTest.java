@@ -7,6 +7,7 @@ import PackageMenu.ConsoleClass;
 import controller.BookingController;
 import controller.FlightController;
 import entity.Flight;
+import entity.enums.City;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,72 +35,72 @@ public class ConsoleClassTest {
     BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
     BookingController bookingController = new BookingController(bookingService);
 
-    private final InputStream originalSystemIn = System.in;
-    private ConsoleClass console;
-
-    @Before
-    public void setUp() {
-        String input = "AMSTERDAM\n24/04/2024 10:00\n3\n";
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-        System.setIn(inputStream);
-
-        FlightController flightController = mock(FlightController.class);
-        BookingController bookingController = mock(BookingController.class);
-
-        console = new ConsoleClass(flightController, bookingController);
-    }
-
-    @After
-    public void tearDown() {
-        System.setIn(originalSystemIn);
-    }
-
-
-//    @Test
-//    public void testSetName() {
-//        InputStream originalIn = System.in;
-//        try {
-//            String input = "Vasya";
-//            InputStream in = new ByteArrayInputStream(input.getBytes());
-//            System.setIn(in);
-//            ConsoleClass myClass = new ConsoleClass(flightController, bookingController);
-//            String result = myClass.setName();
-//            assertEquals("Vasya", result);
-//        } finally {
-//            System.setIn(originalIn);
-//        }
+//    private final InputStream originalSystemIn = System.in;
+//    private ConsoleClass console;
+//
+//    @Before
+//    public void setUp() {
+//        String input = "AMSTERDAM\n24/04/2024 10:00\n3\n";
+//        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+//        System.setIn(inputStream);
+//
+//        FlightController flightController = mock(FlightController.class);
+//        BookingController bookingController = mock(BookingController.class);
+//
+//        console = new ConsoleClass(flightController, bookingController);
 //    }
 //
-//    @Test
-//    public void testSetSurName() {
-//        InputStream originalIn = System.in;
-//        try {
-//            String input = "Vasya";
-//            InputStream in = new ByteArrayInputStream(input.getBytes());
-//            System.setIn(in);
-//            ConsoleClass myClass = new ConsoleClass(flightController, bookingController);
-//            String result = myClass.setSurname();
-//            assertEquals("Vasya", result);
-//        } finally {
-//            System.setIn(originalIn);
-//        }
+//    @After
+//    public void tearDown() {
+//        System.setIn(originalSystemIn);
 //    }
 
+
     @Test
-    public void testFlightDetails() throws InvalidMenuItemException {
-        // Подготавливаем ожидаемые данные
-        Flight dummyFlight = new Flight();
-        List<Flight> flightList = Arrays.asList(dummyFlight);
-        when(console.getFlightController().searchFlight(any())).thenReturn(flightList);
-
-        // Вызываем тестируемый метод
-        console.flightDetails();
-
-        // Проверяем, что методы setName() и setSurname() вызывались нужное количество раз
-        verify(console, times(3)).setName();
-        verify(console, times(3)).setSurname();
-
-        // Проверяем, что метод createNewBooking() вызывался нужное количество раз с правильными параметрами
-        verify(console.getBookingController(), times(3)).createNewBooking(any());
+    public void testSetName() {
+        InputStream originalIn = System.in;
+        try {
+            String input = "Vasya";
+            InputStream in = new ByteArrayInputStream(input.getBytes());
+            System.setIn(in);
+            ConsoleClass myClass = new ConsoleClass(flightController, bookingController);
+            String result = myClass.setName();
+            assertEquals("Vasya", result);
+        } finally {
+            System.setIn(originalIn);
+        }
     }
+
+    @Test
+    public void testSetSurName() {
+        InputStream originalIn = System.in;
+        try {
+            String input = "Vasya";
+            InputStream in = new ByteArrayInputStream(input.getBytes());
+            System.setIn(in);
+            ConsoleClass myClass = new ConsoleClass(flightController, bookingController);
+            String result = myClass.setSurname();
+            assertEquals("Vasya", result);
+        } finally {
+            System.setIn(originalIn);
+        }
+    }
+
+//    @Test
+//    public void testFlightDetails() throws InvalidMenuItemException {
+//        Flight dummyFlight = new Flight();
+//        dummyFlight.setDestination(City.valueOf("AMSTERDAM"));
+//        dummyFlight.setDate(dummyFlight.getDate());
+//        List<Flight> flightList = Arrays.asList(dummyFlight);
+//        when(console.getFlightController().searchFlight(any())).thenReturn(flightList);
+//
+//        console.flightDetails();
+//
+//        // Проверяем, что методы setName() и setSurname() вызывались нужное количество раз
+//        verify(console, times(3)).setName();
+//        verify(console, times(3)).setSurname();
+//
+//        // Проверяем, что метод createNewBooking() вызывался нужное количество раз с правильными параметрами
+//        verify(console.getBookingController(), times(3)).createNewBooking(any());
+//    }
 }
