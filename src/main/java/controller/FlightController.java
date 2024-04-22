@@ -15,7 +15,7 @@ public class FlightController {
         this.flightServiceImpl = flightServiceImpl;
     }
 
-    public Set<Flight> getAllFlights() {
+    public List<Flight> getAllFlights() {
         return flightServiceImpl.getAllFlights();
     };
 

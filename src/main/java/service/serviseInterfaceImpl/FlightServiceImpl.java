@@ -5,9 +5,9 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterface.FlightService;
 import utils.fileLoader.FileLoaderBin;
-import utils.general.Shared;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,8 +21,22 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Set<Flight> getAllFlights() {
-        return flightsDAO.getAllFlights();
+    public List<Flight> getAllFlights() {
+        Date currentDate = new Date();
+        int expectedYear = currentDate.getYear() + 1900;
+        int expectedMonth = currentDate.getMonth() + 1;
+        List<Flight> result = flightsDAO.getAllFlights()
+                .stream()
+                .filter(flight -> {
+                    boolean b = flight.getDate().getYear() == expectedYear
+                            && flight.getDate().getMonth() == expectedMonth
+                            && ((flight.getDate().getDate() == currentDate.getDate()
+                                    && flight.getDate().getHours() >= currentDate.getHours())
+                                || (flight.getDate().getDate() == currentDate.getDate() + 1)
+                                    && flight.getDate().getHours() < currentDate.getHours());
+                    return b;
+                }).collect(Collectors.toList());
+        return result;
     };
 
     @Override
@@ -67,7 +81,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void displayAllFlights() {
-        flightsDAO.displayAllFlights();
+        List<Flight> flights = this.getAllFlights();
+        flights.forEach(System.out::println);
     };
 
     @Override

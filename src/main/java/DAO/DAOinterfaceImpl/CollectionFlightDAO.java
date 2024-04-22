@@ -19,7 +19,7 @@ public class CollectionFlightDAO implements FlightDAO {
 
     private Set<Flight> flights;
     private static int zero = 0;
-    public static int randomFlightsAmount = 2000;
+    public static int randomFlightsAmount = 10000;
 
     public CollectionFlightDAO() {
         this.flights = new HashSet<>();
@@ -91,13 +91,6 @@ public class CollectionFlightDAO implements FlightDAO {
     @Override
     public void addFlight(Flight flight) {
         saveFlight(flight);
-    }
-
-    @Override
-    public void displayAllFlights() {
-        for (Flight flight : this.flights) {
-            System.out.println(flight);
-        }
     }
 
     @Override

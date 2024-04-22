@@ -48,7 +48,7 @@ public class ConsoleClass {
     public void setFlightNumber() {
         System.out.println("Введіть номер рейсу: ");
         String flightId = scanner.nextLine();
-        System.out.println(flightController.getFlightByFlightNumber(flightId));
+        System.out.println(flightController.getSpecificFlightDetails(flightController.getFlightByFlightNumber(flightId)));
     }
     public void setReservationId() {
         System.out.println("Введіть ID бронювання: ");
