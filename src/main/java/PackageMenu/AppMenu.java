@@ -16,12 +16,11 @@ public class AppMenu {
     public static void main(String[] args) {
         FlightDAO flightDAO = new CollectionFlightDAO();
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
-        flightServiceImpl.loadData();
         FlightController flightController = new FlightController(flightServiceImpl);
-//        BookingDAO bookingDAO = new CollectionBookingDAO();
-//        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
-        BookingController bookingController = null;
-//                = new BookingController(bookingService);
+        flightServiceImpl.loadData();
+        BookingDAO bookingDAO = new CollectionBookingDAO();
+        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
+        BookingController bookingController = new BookingController(bookingService);
 
         ConsoleClass consoleClass = new ConsoleClass(flightController, bookingController);
         Scanner scan = new Scanner(System.in);

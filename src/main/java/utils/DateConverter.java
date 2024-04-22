@@ -32,6 +32,7 @@ public class DateConverter {
         Date newDate = null;
         try {
             newDate = dateFormat.parse(date);
+            System.out.println(newDate);
         } catch (ParseException e) {
             System.out.println("Невірний формат дати!");
             e.printStackTrace();

@@ -18,14 +18,28 @@ import static utils.DateConverter.stringToDate;
 public class ConsoleClass {
     private final FlightController flightController;
     private final BookingController bookingController;
+    Scanner scanner = new Scanner(System.in);
+    private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
+    private int passengerCount;
+    public void setPassengerCount(int count) {
+        this.passengerCount = count;
+    }
+
+    public int getPassengerCount() {
+        return passengerCount;
+    }
 
     public ConsoleClass(FlightController flightController, BookingController bookingController) {
         this.flightController = flightController;
         this.bookingController = bookingController;
     }
 
-    Scanner scanner = new Scanner(System.in);
-    private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
+    public FlightController getFlightController() {
+        return flightController;
+    }
+    public BookingController getBookingController() {
+        return bookingController;
+    }
     public List<String> getNewMenu() {
         return newMenu;
     }
@@ -104,6 +118,7 @@ public class ConsoleClass {
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });
+        System.out.println("Бронювання здійснено!");
     }
     public void fullName() {
         bookingController.displayAllBookingByPassenger(new Passenger(setName(),setSurname()));
