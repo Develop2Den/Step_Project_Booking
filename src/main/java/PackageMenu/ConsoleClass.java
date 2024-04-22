@@ -70,7 +70,7 @@ public class ConsoleClass {
         try {
             System.out.println("Введіть номер рейсу: ");
             String flightId = scanner.nextLine();
-            System.out.println(flightController.getFlightByFlightNumber(flightId));
+            System.out.println(flightController.getSpecificFlightDetails(flightController.getFlightByFlightNumber(flightId)));
         } catch (FlightException e) {
             System.out.println("\u001B[31m" + "Помилка: " + "\u001B[0m" + e.getMessage());
         }

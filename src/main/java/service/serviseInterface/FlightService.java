@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface FlightService {
 
-    Set<Flight> getAllFlights();
+    List<Flight> getAllFlights();
     Flight getFlightByFlightNumber(String flightNumber);
     boolean deleteFlight(String flightNumber);
     boolean deleteFlight(Flight flight);
