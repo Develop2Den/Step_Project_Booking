@@ -101,7 +101,7 @@ public class ConsoleClass {
             return;
         }
         IntStream.range(0, flightList.size())
-                .mapToObj(index -> (index + 1) + ". " + flightList.get(index))
+                .mapToObj(index -> (index + 1) + ". " + flightController.getSpecificFlightDetails(flightList.get(index)))
                 .forEach(System.out::println);
         System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
         int choice = scanner.nextInt();
@@ -115,6 +115,7 @@ public class ConsoleClass {
         IntStream.range(0, countPassengers)
                 .forEach(i -> {
                     String name = setName();
+                    scanner.nextLine();
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });

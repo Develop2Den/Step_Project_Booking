@@ -121,7 +121,7 @@ public class CollectionFlightDAO implements FlightDAO {
             int minDuration = Shared.generateRandomNumber(59);
             fl = new Flight(
                     AviaCompany.values()[Shared.generateRandomNumber(AviaCompany.values().length - 1)],
-                    new Date(year, month.getValue() - 1, day, hrs, min, zero),
+                    new Date(year, month.getValue(), day, hrs, min, zero),
                     new Time(hrsDuration, minDuration, zero),
                     City.values()[Shared.generateRandomNumber(City.values().length - 1)],
                     new Plane(PlaneModel.values()[Shared.generateRandomNumber(PlaneModel.values().length - 1)])

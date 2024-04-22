@@ -5,6 +5,7 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterface.FlightService;
 import utils.fileLoader.FileLoaderBin;
+import utils.general.Shared;
 
 import java.io.IOException;
 import java.util.List;
@@ -104,14 +105,27 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) {
-        return flightsDAO.getAllFlights().stream().filter(flight -> {
-            String city = flight.getDestination().name();
-            boolean b = (flight.getDate().getMonth()) == (searchFlightDTO.getDate().getMonth())
-                    && (flight.getDate().getDate()) == (searchFlightDTO.getDate().getDate())
-                    && city.equalsIgnoreCase(searchFlightDTO.getDestination())
-                    && flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity();
-            return b;
-        }).collect(Collectors.toList());
+        int expectedYear = searchFlightDTO.getDate().getYear() + 1900;
+        int expectedMonth = searchFlightDTO.getDate().getMonth() + 1;
+        List<Flight> result = flightsDAO.getAllFlights()
+                .stream()
+                .filter(flight -> {
+                    String city = flight.getDestination().name();
+                    boolean b = (flight.getDate().getMonth() == expectedMonth)
+                            && (flight.getDate().getYear() == expectedYear)
+                            && city.equalsIgnoreCase(searchFlightDTO.getDestination())
+                            ;
+                    return b; })
+                .filter(flight -> {
+                    boolean b = ((flight.getDate().getDate() == searchFlightDTO.getDate().getDate()
+                                    && flight.getDate().getHours() >= searchFlightDTO.getDate().getHours())
+                                || (flight.getDate().getDate() == searchFlightDTO.getDate().getDate() + 1)
+                                    && flight.getDate().getHours() < searchFlightDTO.getDate().getHours())
+                            ;
+                    return b; })
+                .filter(flight -> flight.getAvailableSeats() >= searchFlightDTO.getPassQuantity())
+                .collect(Collectors.toList());
+        return result;
     }
 
     @Override

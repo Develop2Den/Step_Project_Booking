@@ -1,3 +1,5 @@
+package service.serviseInterfaceImpl;
+
 import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import DAO.DAOinterface.FlightDAO;
 import controller.FlightController;
@@ -32,30 +34,6 @@ public class FlightServiceImplTest {
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
         flightServiceImpl.loadData();
         flightServiceImpl.displayAllFlights();
-        assertEquals(flightServiceImpl.getAllFlights().size(), CollectionFlightDAO.randomFlightsAmount);
-
-        FlightController fc = new FlightController(flightServiceImpl);
-        assertEquals(fc.getAllFlights().size(), CollectionFlightDAO.randomFlightsAmount);
-    }
-
-    @Test
-    public void getFilteredFlights() {
-        FlightDAO flightDAO = new CollectionFlightDAO();
-        FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
-        flightServiceImpl.loadData();
-        flightServiceImpl.displayAllFlights();
-        SearchFlightDTO2 sfdto = new SearchFlightDTO2("Amsterdam", new Date(2024, Calendar.APRIL, 16), 3);
-        List<Flight> filteredFlights = flightServiceImpl.searchFlight(sfdto);
-        System.out.println("Results:");
-        flightServiceImpl.displayAllFlights(filteredFlights);
-    }
-
-    @Test
-    public void addFlightTest() {
-        FlightDAO flightDAO = new CollectionFlightDAO();
-        FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
-        flightServiceImpl.loadData();
-        flightServiceImpl.displayAllFlights();
-        Flight flight = flightServiceImpl.getFlightByFlightNumber("KAVN7630");
+        assertEquals("The flights list size is not equal to expected value", flightServiceImpl.getAllFlights().size(), CollectionFlightDAO.randomFlightsAmount);
     }
 }

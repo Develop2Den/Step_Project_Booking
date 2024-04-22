@@ -1,3 +1,5 @@
+package file;
+
 import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import DAO.DAOinterface.FlightDAO;
 import org.junit.Test;
@@ -16,7 +18,7 @@ public class WriteFlightsBinFileTest {
         flightDAO.generateRandomFlights();
         flightServiceImpl.sendData("flights.bin");
         flightServiceImpl.loadData();
-        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == 100);
+        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == CollectionFlightDAO.randomFlightsAmount);
         flightServiceImpl.getAllFlights().forEach(flight -> System.out.println(flight));
     }
 
@@ -27,7 +29,7 @@ public class WriteFlightsBinFileTest {
         flightDAO.generateRandomFlights();
         flightServiceImpl.sendData("flights.bin");
         flightServiceImpl.loadData();
-        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == 100);
+        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == CollectionFlightDAO.randomFlightsAmount);
         File generatedFile = new File("flights.bin");
         generatedFile.delete();
     }
