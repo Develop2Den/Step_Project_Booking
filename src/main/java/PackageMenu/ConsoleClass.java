@@ -119,7 +119,6 @@ public class ConsoleClass {
         Date date = setDate();
         int countPassengers = setCountPassengers();
         SearchFlightDTO2 infoFlight = new SearchFlightDTO2(dest, date, countPassengers);
-        System.out.println(infoFlight);
         List<Flight> flightList = flightController.searchFlight(infoFlight);
         if (flightList.isEmpty()) {
             System.out.println("Немає відповідних рейсів!");
