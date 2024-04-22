@@ -21,7 +21,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> getAllFlights() {
+    public List<Flight> getAllFlightsForSpecificDay() {
         Date currentDate = new Date();
         int expectedYear = currentDate.getYear() + 1900;
         int expectedMonth = currentDate.getMonth() + 1;
@@ -81,7 +81,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void displayAllFlights() {
-        List<Flight> flights = this.getAllFlights();
+        List<Flight> flights = this.getAllFlightsForSpecificDay();
         flights.forEach(System.out::println);
     };
 
@@ -98,6 +98,7 @@ public class FlightServiceImpl implements FlightService {
             objects = fileLoaderBin.readFile(filePath);
             flightsDAO.loadData(objects);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -114,8 +115,10 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public void saveData() {
-        // save in data base
+    public void saveData() throws IOException {
+        Set<Flight> existingFlights = flightsDAO.getAllFlights();
+        FileLoaderBin fileLoaderBin = new FileLoaderBin();
+        fileLoaderBin.writeFile("flights.bin", existingFlights);
     }
 
     @Override
@@ -146,5 +149,12 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public String getSpecificFlightDetails(Flight flight) {
         return flightsDAO.getSpecificFlightDetails(flight);
+    }
+
+    @Override
+    public void bookSeats(Flight flight, int seats) throws IOException {
+        Flight flightToBeUpdated = flightsDAO.getFlightByFlightNumber(flight.getFlightNumber());
+        flightToBeUpdated.updateSeats(seats);
+        saveData();
     }
 }

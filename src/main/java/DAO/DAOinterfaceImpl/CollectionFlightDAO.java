@@ -32,7 +32,7 @@ public class CollectionFlightDAO implements FlightDAO {
 
     @Override
     public void setFlights(Set<Flight> flights) {
-        this.flights = flights;
+        this.flights = new HashSet<>(flights);
     }
 
 
@@ -106,7 +106,7 @@ public class CollectionFlightDAO implements FlightDAO {
         int year = Shared.getCurrentYear();
         Month month = Shared.getCurrentMonth();
         Flight fl;
-        while (!(randomFlights.size() == randomFlightsAmount)) {
+        while (randomFlights.size() < randomFlightsAmount) {
             int day = Shared.getRandomDay();
             int hrs = Shared.generateRandomNumber(24);
             int min = Shared.generateRandomNumber(59);

@@ -1,12 +1,11 @@
 package controller;
 
-import dto.SearchFlightDTO;
-import dto.SearchFlightDTO2;
 import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterfaceImpl.FlightServiceImpl;
+
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 public class FlightController {
 
@@ -17,7 +16,7 @@ public class FlightController {
     }
 
     public List<Flight> getAllFlights() {
-        return flightServiceImpl.getAllFlights();
+        return flightServiceImpl.getAllFlightsForSpecificDay();
     };
 
     public Flight getFlightByFlightNumber(String flightNumber) {
@@ -66,5 +65,9 @@ public class FlightController {
 
     public String getSpecificFlightDetails(Flight flight) {
         return flightServiceImpl.getSpecificFlightDetails(flight);
+    }
+
+    public void bookSeats(Flight flight, int bookedSeats) throws IOException {
+        flightServiceImpl.bookSeats(flight, bookedSeats);
     }
 }
