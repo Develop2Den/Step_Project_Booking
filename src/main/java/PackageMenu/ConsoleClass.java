@@ -9,9 +9,6 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,6 +29,7 @@ public class ConsoleClass {
     public List<String> getNewMenu() {
         return newMenu;
     }
+
     public String setName() {
         System.out.println("Введіть ваше ім'я: ");
         return scanner.nextLine();
@@ -50,7 +48,7 @@ public class ConsoleClass {
             if (isValidCity) {
                 return input;
             } else {
-                System.out.println("Введений город не відповідає списку доступних городів. Спробуйте ще раз.");
+                System.out.println("Введене місто не відповідає списку доступних міст. Спробуйте ще раз.");
             }
         }
     }
@@ -82,6 +80,7 @@ public class ConsoleClass {
         Date date = setDate();
         int countPassengers = setCountPassengers();
         SearchFlightDTO2 infoFlight = new SearchFlightDTO2(dest, date, countPassengers);
+        System.out.println(infoFlight);
         List<Flight> flightList = flightController.searchFlight(infoFlight);
         if (flightList.isEmpty()) {
             System.out.println("Немає відповідних рейсів!");

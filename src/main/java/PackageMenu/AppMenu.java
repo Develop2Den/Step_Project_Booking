@@ -18,9 +18,10 @@ public class AppMenu {
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
         flightServiceImpl.loadData();
         FlightController flightController = new FlightController(flightServiceImpl);
-        BookingDAO bookingDAO = new CollectionBookingDAO();
-        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
-        BookingController bookingController = new BookingController(bookingService);
+//        BookingDAO bookingDAO = new CollectionBookingDAO();
+//        BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
+        BookingController bookingController = null;
+//                = new BookingController(bookingService);
 
         ConsoleClass consoleClass = new ConsoleClass(flightController, bookingController);
         Scanner scan = new Scanner(System.in);
