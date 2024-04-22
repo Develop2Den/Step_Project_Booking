@@ -1,9 +1,10 @@
 package controller;
 
+import dto.SearchFlightDTO;
+import dto.SearchFlightDTO2;
 import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterfaceImpl.FlightServiceImpl;
-
 import java.util.List;
 import java.util.Set;
 

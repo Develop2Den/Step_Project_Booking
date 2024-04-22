@@ -1,5 +1,6 @@
 package PackageMenu;
 
+import ErrorException.FlightException;
 import ErrorException.InvalidMenuItemException;
 import controller.BookingController;
 import controller.FlightController;
@@ -7,75 +8,110 @@ import dto.BookingFlightDTO;
 import dto.SearchFlightDTO2;
 import entity.Flight;
 import entity.Passenger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import entity.enums.City;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static utils.DateConverter.stringToDate;
 
 public class ConsoleClass {
     private final FlightController flightController;
     private final BookingController bookingController;
+    Scanner scanner = new Scanner(System.in);
+    private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
+    private int passengerCount;
+    public void setPassengerCount(int count) {
+        this.passengerCount = count;
+    }
+
+    public int getPassengerCount() {
+        return passengerCount;
+    }
 
     public ConsoleClass(FlightController flightController, BookingController bookingController) {
         this.flightController = flightController;
         this.bookingController = bookingController;
     }
 
-    Scanner scanner = new Scanner(System.in);
-    private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
+    public FlightController getFlightController() {
+        return flightController;
+    }
+    public BookingController getBookingController() {
+        return bookingController;
+    }
     public List<String> getNewMenu() {
         return newMenu;
     }
+
     public String setName() {
         System.out.println("Введіть ваше ім'я: ");
-        String name = scanner.nextLine();
-        return name;
+        return scanner.nextLine().trim();
     }
     public String setSurname() {
         System.out.println("Введіть ваше прізвище: ");
-        String surname = scanner.nextLine();
-        return surname;
+        return scanner.nextLine().trim();
     }
     public String setDestination() {
-        System.out.println("Введіть пункт призначення: ");
-        String destination = scanner.nextLine();
-        return destination;
+        while (true) {
+            System.out.println("Введіть пункт призначення: ");
+            String input = scanner.nextLine().trim();
+            boolean isValidCity = Arrays.stream(City.values())
+                    .map(City::name)
+                    .anyMatch(cityName -> cityName.equalsIgnoreCase(input));
+            if (isValidCity) {
+                return input;
+            } else {
+                System.out.println("Введене місто не відповідає списку доступних міст. Спробуйте ще раз.");
+            }
+        }
     }
     public void setFlightNumber() {
-        System.out.println("Введіть номер рейсу: ");
-        String flightId = scanner.nextLine();
-        System.out.println(flightController.getSpecificFlightDetails(flightController.getFlightByFlightNumber(flightId)));
+        try {
+            System.out.println("Введіть номер рейсу: ");
+            String flightId = scanner.nextLine();
+            System.out.println(flightController.getSpecificFlightDetails(flightController.getFlightByFlightNumber(flightId)));
+        } catch (FlightException e) {
+            System.out.println("\u001B[31m" + "Помилка: " + "\u001B[0m" + e.getMessage());
+        }
     }
     public void setReservationId() {
-        System.out.println("Введіть ID бронювання: ");
-        int reservationId = scanner.nextInt();
-        bookingController.cancelBooking(reservationId);
+        int count = 0;
+        boolean isValid = false;
+        do {
+            System.out.println("Введіть ID бронювання: ");
+            String reservationId = scanner.nextLine();
+            try {
+                count = Integer.parseInt(reservationId);
+                isValid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
+            }
+        } while (!isValid);
+        bookingController.cancelBooking(count);
     }
     public int setCountPassengers() {
-        System.out.println("Введіть кількість пасажирів: ");
-        int passengerCount = scanner.nextInt();
-        return passengerCount;
+        int count = 0;
+        boolean isValid = false;
+        do {
+            System.out.println("Введіть кількість пасажирів: ");
+            String passengerCount = scanner.nextLine();
+            try {
+                count = Integer.parseInt(passengerCount);
+                isValid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
+            }
+        } while (!isValid);
+        return count;
     }
     public Date setDate() {
-        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
-        String inputDateStr = scanner.nextLine();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = null;
-        try {
-            date = dateFormat.parse(inputDateStr);
-//            System.out.println("setDate, year " + date.getYear());
-//            System.out.println("setDate, month " + date.getMonth());
-//            System.out.println("setDate, date " + date.getDate());
-        } catch (ParseException e) {
-            System.out.println("Невірний формат дати!");
-            e.printStackTrace();
+        while (date == null) {
+            System.out.print("Введите дату в формате dd/MM/yyyy hh:mm: ");
+            String input = scanner.nextLine();
+            date = stringToDate(input);
         }
-        System.out.println(date);
         return date;
     }
     public void flightDetails() throws InvalidMenuItemException {
@@ -91,21 +127,29 @@ public class ConsoleClass {
         IntStream.range(0, flightList.size())
                 .mapToObj(index -> (index + 1) + ". " + flightController.getSpecificFlightDetails(flightList.get(index)))
                 .forEach(System.out::println);
-        System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
-        int choice = scanner.nextInt();
-        if (choice == 0) {
-            return;
-        } else if (choice < 0 || choice > flightList.size()) {
-            throw new InvalidMenuItemException("Будь-ласка введіть коректне значення!");
-        }
+        int choice;
+        do {
+            System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
+            while (!scanner.hasNextInt()) {
+                System.out.println( "\u001B[31m" + "Будь ласка, введіть число: " + "\u001B[0m");
+                scanner.next();
+            }
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice == 0) {
+                return;
+            } else if (choice < 0 || choice > flightList.size()) {
+                System.out.println( "\u001B[31m" + "Будь-ласка введіть коректне значення!" + "\u001B[0m");
+            }
+        } while (choice < 0 || choice > flightList.size());
         Flight selectedFlight = flightList.get(choice - 1);
         IntStream.range(0, countPassengers)
                 .forEach(i -> {
                     String name = setName();
-                    scanner.nextLine();
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });
+        System.out.println("Бронювання здійснено!");
     }
     public void fullName() {
         bookingController.displayAllBookingByPassenger(new Passenger(setName(),setSurname()));

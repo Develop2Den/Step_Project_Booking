@@ -16,8 +16,8 @@ public class AppMenu {
     public static void main(String[] args) {
         FlightDAO flightDAO = new CollectionFlightDAO();
         FlightServiceImpl flightServiceImpl = new FlightServiceImpl(flightDAO);
-        flightServiceImpl.loadData();
         FlightController flightController = new FlightController(flightServiceImpl);
+        flightServiceImpl.loadData();
         BookingDAO bookingDAO = new CollectionBookingDAO();
         BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
         BookingController bookingController = new BookingController(bookingService);
