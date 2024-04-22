@@ -86,31 +86,40 @@ public class Flight implements Serializable {
         return this.flightNumber = String.valueOf(aviaCompany) + destination + count++;
     }
 
+    private String getFormattedDestination(City destination) {
+        return destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
+    }
+
+    private String getFormattedIntValue(int value) {
+        if (value < 10) {
+            return String.format("0%s", value);
+        } else return String.valueOf(value);
+    }
+
     @Override
     public String toString() {
-        String nameFormat = destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
         return String.format("%s %s %s/%s/%s %s:%s",
                 flightNumber,
-                nameFormat,
-                date.getDate(),
-                date.getMonth(),
-                date.getYear(),
-                date.getHours(),
-                date.getMinutes());
+                getFormattedDestination(destination),
+                getFormattedIntValue(date.getDate()),
+                getFormattedIntValue(date.getMonth()),
+                getFormattedIntValue(date.getYear()),
+                getFormattedIntValue(date.getHours()),
+                getFormattedIntValue(date.getMinutes()));
     }
 
     public String getAllFlightDetails() {
-        String nameFormat = destination.name().charAt(0) + destination.name().substring(1).toLowerCase();
+        String nameFormat = getFormattedDestination(destination);
         return String.format("%s %s %s/%s/%s %s:%s; duration %s:%s; managed by \"%s\"; available seats: %s, booked seats: %s",
                 flightNumber,
                 nameFormat,
-                date.getDate(),
-                date.getMonth(),
-                date.getYear(),
-                date.getHours(),
-                date.getMinutes(),
-                duration.getHours(),
-                duration.getMinutes(),
+                getFormattedIntValue(date.getDate()),
+                getFormattedIntValue(date.getMonth()),
+                getFormattedIntValue(date.getYear()),
+                getFormattedIntValue(date.getHours()),
+                getFormattedIntValue(date.getMinutes()),
+                getFormattedIntValue(duration.getHours()),
+                getFormattedIntValue(duration.getMinutes()),
                 aviaCompany.name(),
                 plane.getAvailableSeats(),
                 plane.getBookedSeats()

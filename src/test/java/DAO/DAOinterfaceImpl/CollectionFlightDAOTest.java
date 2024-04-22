@@ -1,3 +1,5 @@
+package DAO.DAOinterfaceImpl;
+
 import DAO.DAOinterfaceImpl.CollectionFlightDAO;
 import DAO.DAOinterface.FlightDAO;
 import entity.Flight;

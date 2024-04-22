@@ -68,6 +68,9 @@ public class ConsoleClass {
         Date date = null;
         try {
             date = dateFormat.parse(inputDateStr);
+//            System.out.println("setDate, year " + date.getYear());
+//            System.out.println("setDate, month " + date.getMonth());
+//            System.out.println("setDate, date " + date.getDate());
         } catch (ParseException e) {
             System.out.println("Невірний формат дати!");
             e.printStackTrace();
@@ -86,7 +89,7 @@ public class ConsoleClass {
             return;
         }
         IntStream.range(0, flightList.size())
-                .mapToObj(index -> (index + 1) + ". " + flightList.get(index))
+                .mapToObj(index -> (index + 1) + ". " + flightController.getSpecificFlightDetails(flightList.get(index)))
                 .forEach(System.out::println);
         System.out.print("Виберіть рейс (або натисніть 0 для виходу): ");
         int choice = scanner.nextInt();

@@ -1,3 +1,5 @@
+package entity;
+
 import entity.Plane;
 import ErrorException.PlaneException;
 import entity.enums.PlaneModel;
