@@ -18,5 +18,6 @@ public interface BookingService {
     <T> void displayItems(List<T> items);
     void cancelBooking(int id);
     List<Passenger> getAllPassengers();
+    Passenger getActivePassenger(String name, String surname);
     List<Booking> getAllBookings();
 }

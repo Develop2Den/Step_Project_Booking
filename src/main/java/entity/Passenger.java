@@ -13,14 +13,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Passenger implements Serializable {
 
-    private static final AtomicInteger nextId = new AtomicInteger(1);
-    private int id;
     private String name;
     private String surname;
     private List<Booking> bookings;
 
     public Passenger(String name, String surname) {
-        //this.id = nextId.getAndIncrement();
         this.name = name;
         this.surname = surname;
         this.bookings = new ArrayList<>();

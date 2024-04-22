@@ -2,18 +2,21 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * description
  *
  * @author Alexander Isai on 14.04.2024.
  */
+
 public class Booking implements Serializable {
 
     private int id;
     private Passenger passenger;
     private Flight flight;
+
+    public Booking() {
+    }
 
     public Booking(Passenger passenger, Flight flight, int id) {
         this.id = id;

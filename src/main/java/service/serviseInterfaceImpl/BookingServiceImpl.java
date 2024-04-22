@@ -5,6 +5,7 @@ import dto.BookingFlightDTO;
 import entity.Booking;
 import entity.Passenger;
 import service.serviseInterface.BookingService;
+import utils.Logger;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,24 +37,22 @@ public class BookingServiceImpl implements BookingService {
         int index = getAllPassengers().indexOf(passenger);
         if(index >= 0){
             passenger = getAllPassengers().get(index);
+            Logger.info("Пасажир знайдений у базі даних");
         }
         Booking booking = new Booking(passenger, bookingFlightDTO.getFlight(), createBookingId());
-        System.out.println("Booking for passenger " + passenger);
         passenger.addBooking(booking);
         bookingDAO.saveBooking(booking);
+        Logger.info("Бронювання успішно створено");
     }
 
     @Override
     public List<Booking> getAllBookingByPassenger(Passenger passenger) {
-        List<Booking> aaa = getAllBookings();
-        System.out.println(aaa);
-
-        List<Booking> bbb = bookingDAO.getAllBooking().stream()
+        System.out.println(getAllPassengers());
+        System.out.println(getAllBookings());
+        Logger.info("Пасажир знайдений в БД");
+        return bookingDAO.getAllBooking().stream()
                 .filter(booking -> booking != null && booking.getPassenger().equals(passenger))
                 .toList();
-
-        System.out.println(bbb);
-        return bbb;
     }
 
     @Override
@@ -69,10 +68,22 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Passenger> getAllPassengers() {
+        Logger.info("Завантажений список пасажирів");
         return bookingDAO.getAllBooking().stream()
                 .filter(Objects::nonNull)
                 .map(Booking::getPassenger)
                 .toList();
+    }
+
+    @Override
+    public Passenger getActivePassenger(String name, String surname) {
+        Passenger activePassenger = new Passenger(name, surname);
+        int index = getAllPassengers().indexOf(activePassenger);
+        if (index > 0) {
+            activePassenger = getAllPassengers().get(index);
+        }
+
+        return activePassenger;
     }
 
     @Override

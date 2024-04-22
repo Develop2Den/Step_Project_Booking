@@ -4,6 +4,7 @@ package DAO.DAOinterfaceImpl;
 import DAO.DAOinterface.BookingDAO;
 
 import entity.Booking;
+import utils.Logger;
 import utils.fileLoader.FileBookingLoaderBin;
 
 import java.util.*;
@@ -20,43 +21,54 @@ public class CollectionBookingDAO implements BookingDAO {
 
     public CollectionBookingDAO() {
         this.bookingLoaderBin = new FileBookingLoaderBin();
-
         this.bookings = getAllBooking();
     }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
     @Override
     public Booking getBookingById(int id) {
         Optional<Booking> booking = bookings.stream()
                 .filter(bk -> bk != null && bk.getId() == id)
                 .findFirst();
+        Logger.info("Отримано бронювання по ID");
         return booking.orElse(null);
     }
 
     @Override
     public void saveBooking(Booking booking) {
         if (booking == null){
-            System.out.println("Якась дурня");
+            Logger.error("Невдала спроба створення бронювання");
         }
         int index = bookings.indexOf(booking);
         if (index >= 0) {
             bookings.set(index, booking);
+            Logger.info("Бронювання змінено");
         } else {
             bookings.add(booking);
+            Logger.info("Бронювання додано то списку");
         }
         bookingLoaderBin.loadData(bookings);
+        Logger.info("Бронювання успішно збережено в БД");
     }
 
     @Override
     public void cancelBooking(Booking booking) {
         if (booking == null){
-            System.out.println("Видалення неможливе");
+            Logger.error("Невдала спроба видалення бронювання");
         } else {
             bookings.remove(booking);
+            Logger.info("Бронювання видалено зі списку");
             bookingLoaderBin.loadData(bookings);
+            Logger.info("Бронювання видалено з БД");
         }
     }
 
     @Override
     public List<Booking> getAllBooking() {
+        Logger.info("Отриманий список бронювань");
         return bookingLoaderBin.getDataFromFile();
     }
 
