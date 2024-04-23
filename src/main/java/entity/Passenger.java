@@ -15,16 +15,42 @@ public class Passenger implements Serializable {
 
     private String name;
     private String surname;
+    private String password;
     private List<Booking> bookings;
 
     public Passenger(String name, String surname) {
         this.name = name;
         this.surname = surname;
+        this.password = name.toLowerCase();
         this.bookings = new ArrayList<>();
     }
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void addBooking(Booking booking){
@@ -48,7 +74,7 @@ public class Passenger implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Passenger passenger = (Passenger) o;
-        return Objects.equals(name, passenger.name) && Objects.equals(surname, passenger.surname);
+        return Objects.equals(name, passenger.name) && Objects.equals(surname, passenger.surname) && Objects.equals(password, passenger.password);
     }
 
     @Override
@@ -61,6 +87,7 @@ public class Passenger implements Serializable {
         return "Passenger{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

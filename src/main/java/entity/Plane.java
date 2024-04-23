@@ -2,6 +2,7 @@ package entity;
 
 import ErrorException.PlaneException;
 import entity.enums.PlaneModel;
+import utils.general.Shared;
 
 import java.io.Serializable;
 
@@ -17,7 +18,7 @@ public class Plane implements Serializable {
     public Plane(PlaneModel planeModel) {
         this.seats = planeModel.getSeats();
         if (this.seats < 0) throw new PlaneException(errorAmountShouldBeGreaterThan0, seats);
-        this.bookedSeats = 0;
+        this.bookedSeats = getRandomBookedSeats();
     }
 
     public Plane() {
@@ -27,6 +28,13 @@ public class Plane implements Serializable {
 
     public PlaneModel getPlaneModel() {
         return planeModel;
+    }
+
+    private int getRandomBookedSeats() {
+        int choice = Shared.generateRandomNumberMinMax(0, 3);
+        if (choice < 2) {
+            return Shared.generateRandomNumberMinMax(0, seats / 3);
+        } else return 0;
     }
 
     public int getSeats() {
@@ -60,5 +68,11 @@ public class Plane implements Serializable {
                 ", bookedSeats = " + bookedSeats +
                 ", availableSeats = " + getAvailableSeats() +
                 " ] ";
+    }
+
+    public void updateSeats(int requiredBookedSeats) {
+        if (requiredBookedSeats <= getAvailableSeats())
+        this.bookedSeats += requiredBookedSeats;
+        else throw new PlaneException("No available seats in this plane", requiredBookedSeats);
     }
 }

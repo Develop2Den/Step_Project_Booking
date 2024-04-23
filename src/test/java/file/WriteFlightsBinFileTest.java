@@ -18,8 +18,8 @@ public class WriteFlightsBinFileTest {
         flightDAO.generateRandomFlights();
         flightServiceImpl.sendData("flights.bin");
         flightServiceImpl.loadData();
-        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == CollectionFlightDAO.randomFlightsAmount);
-        flightServiceImpl.getAllFlights().forEach(flight -> System.out.println(flight));
+        assertTrue("The data loaded with error", flightServiceImpl.getAllFlightsForSpecificDay().size() == CollectionFlightDAO.randomFlightsAmount);
+        flightServiceImpl.getAllFlightsForSpecificDay().forEach(flight -> System.out.println(flight));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class WriteFlightsBinFileTest {
         flightDAO.generateRandomFlights();
         flightServiceImpl.sendData("flights.bin");
         flightServiceImpl.loadData();
-        assertTrue("The data loaded with error", flightServiceImpl.getAllFlights().size() == CollectionFlightDAO.randomFlightsAmount);
+        assertTrue("The data loaded with error", flightServiceImpl.getAllFlightsForSpecificDay().size() == CollectionFlightDAO.randomFlightsAmount);
         File generatedFile = new File("flights.bin");
         generatedFile.delete();
     }

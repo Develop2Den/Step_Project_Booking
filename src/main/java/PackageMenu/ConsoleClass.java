@@ -9,6 +9,9 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -106,13 +109,9 @@ public class ConsoleClass {
         return count;
     }
     public Date setDate() {
-        Date date = null;
-        while (date == null) {
-            System.out.print("Введите дату в формате dd/MM/yyyy hh:mm: ");
-            String input = scanner.nextLine();
-            date = stringToDate(input);
-        }
-        return date;
+        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
+        String inputDateStr = scanner.nextLine();
+        return stringToDate(inputDateStr);
     }
     public void flightDetails() throws InvalidMenuItemException {
         String dest = setDestination();

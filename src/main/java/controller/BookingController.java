@@ -28,4 +28,7 @@ public class BookingController {
         bookingService.displayItems(bookingService.getAllPassengers());
     }
     public void cancelBooking(int id){bookingService.cancelBooking(id);}
+    public Passenger getActivePassenger(String name, String surname, String password){
+        return bookingService.getActivePassenger(name, surname, password);
+    }
 }
