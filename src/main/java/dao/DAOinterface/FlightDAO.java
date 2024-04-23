@@ -30,8 +30,6 @@ public interface FlightDAO {
 
     void addFlight(Flight flight);
 
-    void displayAllFlights();
-
     void displayAllFlights(List<Flight> flights);
 
     Set<Flight> generateRandomFlights();

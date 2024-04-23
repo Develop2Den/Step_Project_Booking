@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.serviseInterface.BookingService;
 import service.serviseInterfaceImpl.FlightServiceImpl;
+
+import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -76,7 +78,7 @@ public class BookingControllerTest {
         @Test
         void getAllFlightsTest() {
             flightServiceImpl.loadData();
-            Set<Flight> flights = flightController.getAllFlights();
+            List<Flight> flights = flightController.getAllFlights();
             assertEquals("The list of flights is not loaded", CollectionFlightDAO.randomFlightsAmount, flights.size());
             //flights.forEach(System.out::println);
         }

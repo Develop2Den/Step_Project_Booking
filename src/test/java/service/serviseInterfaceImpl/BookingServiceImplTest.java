@@ -87,4 +87,6 @@ public class BookingServiceImplTest {
         assertNotNull(bookings);
         verify(bookingDAO).getAllBooking();
     }
+
+
 }

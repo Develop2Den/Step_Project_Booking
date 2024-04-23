@@ -7,8 +7,7 @@ import entity.Passenger;
 import service.serviseInterface.BookingService;
 import utils.Logger;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -37,7 +36,6 @@ public class BookingServiceImpl implements BookingService {
         int index = getAllPassengers().indexOf(passenger);
         if(index >= 0){
             passenger = getAllPassengers().get(index);
-            Logger.info("Пасажир знайдений у базі даних");
         }
         Booking booking = new Booking(passenger, bookingFlightDTO.getFlight(), createBookingId());
         passenger.addBooking(booking);
@@ -49,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAllBookingByPassenger(Passenger passenger) {
         System.out.println(getAllPassengers());
         System.out.println(getAllBookings());
-        Logger.info("Пасажир знайдений в БД");
+        Logger.info("Пошук пасажира в БД");
         return bookingDAO.getAllBooking().stream()
                 .filter(booking -> booking != null && booking.getPassenger().equals(passenger))
                 .toList();
@@ -65,25 +63,29 @@ public class BookingServiceImpl implements BookingService {
     public void cancelBooking(int id) {
         bookingDAO.cancelBooking(bookingDAO.getBookingById(id));
     }
-
     @Override
     public List<Passenger> getAllPassengers() {
         Logger.info("Завантажений список пасажирів");
-        return bookingDAO.getAllBooking().stream()
+        return new ArrayList<>(new HashSet<>(bookingDAO.getAllBooking().stream()
                 .filter(Objects::nonNull)
                 .map(Booking::getPassenger)
-                .toList();
+                .toList()));
     }
 
     @Override
-    public Passenger getActivePassenger(String name, String surname) {
+    public Passenger getActivePassenger(String name, String surname, String password) {
         Passenger activePassenger = new Passenger(name, surname);
-        int index = getAllPassengers().indexOf(activePassenger);
-        if (index > 0) {
-            activePassenger = getAllPassengers().get(index);
+        activePassenger.setPassword(password);
+        Optional<Passenger> exceptPassenger = getAllPassengers().stream()
+                        .filter(passenger -> passenger != null && passenger.equals(activePassenger))
+                                .findFirst();
+        if (exceptPassenger.isPresent()){
+            return exceptPassenger.get();
         }
-
-        return activePassenger;
+        else {
+            System.out.println(name + ", Ви новий пасажир. Вітаємо!");
+            return activePassenger;
+        }
     }
 
     @Override

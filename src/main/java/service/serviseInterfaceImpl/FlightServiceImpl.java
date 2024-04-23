@@ -5,9 +5,9 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterface.FlightService;
 import utils.fileLoader.FileLoaderBin;
-import utils.general.Shared;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,8 +21,22 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Set<Flight> getAllFlights() {
-        return flightsDAO.getAllFlights();
+    public List<Flight> getAllFlightsForSpecificDay() {
+        Date currentDate = new Date();
+        int expectedYear = currentDate.getYear() + 1900;
+        int expectedMonth = currentDate.getMonth() + 1;
+        List<Flight> result = flightsDAO.getAllFlights()
+                .stream()
+                .filter(flight -> {
+                    boolean b = flight.getDate().getYear() == expectedYear
+                            && flight.getDate().getMonth() == expectedMonth
+                            && ((flight.getDate().getDate() == currentDate.getDate()
+                                    && flight.getDate().getHours() >= currentDate.getHours())
+                                || (flight.getDate().getDate() == currentDate.getDate() + 1)
+                                    && flight.getDate().getHours() < currentDate.getHours());
+                    return b;
+                }).collect(Collectors.toList());
+        return result;
     };
 
     @Override
@@ -67,7 +81,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void displayAllFlights() {
-        flightsDAO.displayAllFlights();
+        List<Flight> flights = this.getAllFlightsForSpecificDay();
+        flights.forEach(System.out::println);
     };
 
     @Override
@@ -83,6 +98,7 @@ public class FlightServiceImpl implements FlightService {
             objects = fileLoaderBin.readFile(filePath);
             flightsDAO.loadData(objects);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
@@ -99,8 +115,10 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public void saveData() {
-        // save in data base
+    public void saveData() throws IOException {
+        Set<Flight> existingFlights = flightsDAO.getAllFlights();
+        FileLoaderBin fileLoaderBin = new FileLoaderBin();
+        fileLoaderBin.writeFile("flights.bin", existingFlights);
     }
 
     @Override
@@ -131,5 +149,12 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public String getSpecificFlightDetails(Flight flight) {
         return flightsDAO.getSpecificFlightDetails(flight);
+    }
+
+    @Override
+    public void bookSeats(Flight flight, int seats) throws IOException {
+        Flight flightToBeUpdated = flightsDAO.getFlightByFlightNumber(flight.getFlightNumber());
+        flightToBeUpdated.updateSeats(seats);
+        saveData();
     }
 }

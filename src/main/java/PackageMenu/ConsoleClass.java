@@ -106,12 +106,21 @@ public class ConsoleClass {
         return count;
     }
     public Date setDate() {
+        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
+        String inputDateStr = scanner.nextLine();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = null;
-        while (date == null) {
-            System.out.print("Введите дату в формате dd/MM/yyyy hh:mm: ");
-            String input = scanner.nextLine();
-            date = stringToDate(input);
+        try {
+            date = dateFormat.parse(inputDateStr);
+//            System.out.println("setDate, year " + date.getYear());
+//            System.out.println("setDate, month " + date.getMonth());
+//            System.out.println("setDate, date " + date.getDate());
+        } catch (ParseException e) {
+            System.out.println("Невірний формат дати!");
+            e.printStackTrace();
         }
+        System.out.println(date);
         return date;
     }
     public void flightDetails() throws InvalidMenuItemException {

@@ -70,6 +70,10 @@ public class Flight implements Serializable {
         this.date = date;
     }
 
+    public void updateSeats(int bookedSeats) {
+        this.plane.updateSeats(bookedSeats);
+    }
+
     public void setDuration(Time duration) {
         this.duration = duration;
     }
