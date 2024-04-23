@@ -6,17 +6,15 @@ import controller.BookingController;
 import controller.FlightController;
 import dto.BookingFlightDTO;
 import dto.SearchFlightDTO2;
+import entity.Booking;
 import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
-
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import static utils.DateConverter.stringToDate;
 
 public class ConsoleClass {
@@ -24,7 +22,6 @@ public class ConsoleClass {
     private final BookingController bookingController;
     Scanner scanner = new Scanner(System.in);
     private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
-    private int passengerCount;
     private Passenger passenger;
 
     public ConsoleClass(FlightController flightController, BookingController bookingController) {
@@ -37,18 +34,6 @@ public class ConsoleClass {
     }
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
-    }
-    public void setPassengerCount(int count) {
-        this.passengerCount = count;
-    }
-    public int getPassengerCount() {
-        return passengerCount;
-    }
-    public FlightController getFlightController() {
-        return flightController;
-    }
-    public BookingController getBookingController() {
-        return bookingController;
     }
     public List<String> getNewMenu() {
         return newMenu;
@@ -102,8 +87,17 @@ public class ConsoleClass {
                 System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
             }
         } while (!isValid);
-        bookingController.cancelBooking(count);
-//        flightController.bookSeats( , -1);
+            Flight flight = bookingController.getFlightByBookingId(count);
+            if (flight != null) {
+                try {
+                    flightController.bookSeats(flight, -1);
+                    bookingController.cancelBooking(count);
+                } catch (IOException e) {
+                    System.out.println("\u001B[31m" + "Сталася помилка при спробі скасувати бронювання." + "\u001B[0m");
+                }
+            } else {
+            System.out.println("\u001B[31m" + "Помилка: бронювання з ID " + count + " не знайдено." + "\u001B[0m");
+        }
     }
     public int setCountPassengers() {
         int count = 0;
