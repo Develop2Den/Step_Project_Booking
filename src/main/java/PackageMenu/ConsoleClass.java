@@ -9,6 +9,9 @@ import dto.SearchFlightDTO2;
 import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -108,20 +111,7 @@ public class ConsoleClass {
     public Date setDate() {
         System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
         String inputDateStr = scanner.nextLine();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = null;
-        try {
-            date = dateFormat.parse(inputDateStr);
-//            System.out.println("setDate, year " + date.getYear());
-//            System.out.println("setDate, month " + date.getMonth());
-//            System.out.println("setDate, date " + date.getDate());
-        } catch (ParseException e) {
-            System.out.println("Невірний формат дати!");
-            e.printStackTrace();
-        }
-        System.out.println(date);
-        return date;
+        return stringToDate(inputDateStr);
     }
     public void flightDetails() throws InvalidMenuItemException {
         String dest = setDestination();
