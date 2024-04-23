@@ -159,14 +159,10 @@ public class ConsoleClass {
         flightController.displayAllFlights();
         System.out.println("==========================================================================================");
     }
-
-//    public boolean authenticate() {
-//        Map<String, String> users = null;
-//        System.out.print("Введіть логин: ");
-//        String username = scanner.nextLine().trim();
-//        System.out.print("Введіть пароль: ");
-//        String password = scanner.nextLine().trim();
-//
-//        return users.containsKey(username) && users.get(username).equals(password);
-//    }
+    public boolean authenticate() {
+        String username = setName();
+        System.out.print("Введіть пароль: ");
+        String password = scanner.nextLine().trim();
+        return true;
+    }
 }
