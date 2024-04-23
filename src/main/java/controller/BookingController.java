@@ -1,5 +1,7 @@
 package controller;
 import dto.BookingFlightDTO;
+import entity.Booking;
+import entity.Flight;
 import entity.Passenger;
 import service.serviseInterface.BookingService;
 /**
@@ -30,5 +32,11 @@ public class BookingController {
     public void cancelBooking(int id){bookingService.cancelBooking(id);}
     public Passenger getActivePassenger(String name, String surname, String password){
         return bookingService.getActivePassenger(name, surname, password);
+    }
+    public Booking getBookingById(int id){
+        return bookingService.getBookingById(id);
+    }
+    public Flight getFlightByBookingId(int id){
+        return bookingService.getFlightByBookingId(id);
     }
 }

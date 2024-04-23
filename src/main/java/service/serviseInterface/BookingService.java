@@ -2,6 +2,7 @@ package service.serviseInterface;
 
 import dto.BookingFlightDTO;
 import entity.Booking;
+import entity.Flight;
 import entity.Passenger;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface BookingService {
     List<Passenger> getAllPassengers();
     Passenger getActivePassenger(String name, String surname, String password);
     List<Booking> getAllBookings();
+    Booking getBookingById(int id);
+    Flight getFlightByBookingId(int id);
 }
