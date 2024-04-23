@@ -10,6 +10,7 @@ import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,19 +25,25 @@ public class ConsoleClass {
     Scanner scanner = new Scanner(System.in);
     private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
     private int passengerCount;
-    public void setPassengerCount(int count) {
-        this.passengerCount = count;
-    }
-
-    public int getPassengerCount() {
-        return passengerCount;
-    }
+    private Passenger passenger;
 
     public ConsoleClass(FlightController flightController, BookingController bookingController) {
         this.flightController = flightController;
         this.bookingController = bookingController;
     }
 
+    public Passenger getPassenger() {
+        return passenger;
+    }
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
+    }
+    public void setPassengerCount(int count) {
+        this.passengerCount = count;
+    }
+    public int getPassengerCount() {
+        return passengerCount;
+    }
     public FlightController getFlightController() {
         return flightController;
     }
@@ -92,6 +99,7 @@ public class ConsoleClass {
             }
         } while (!isValid);
         bookingController.cancelBooking(count);
+//        flightController.bookSeats();
     }
     public int setCountPassengers() {
         int count = 0;
@@ -109,9 +117,19 @@ public class ConsoleClass {
         return count;
     }
     public Date setDate() {
-        System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm:ss): ");
-        String inputDateStr = scanner.nextLine();
-        return stringToDate(inputDateStr);
+        Date date = null;
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm): ");
+            String inputDateStr = scanner.nextLine();
+            try {
+                date = stringToDate(inputDateStr);
+                isValid = true;
+            } catch (ParseException e) {
+                System.out.println("Невірний формат дати! Повторіть введення.");
+            }
+        }
+        return date;
     }
     public void flightDetails() throws InvalidMenuItemException {
         String dest = setDestination();
@@ -148,10 +166,15 @@ public class ConsoleClass {
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });
+        try {
+            flightController.bookSeats(selectedFlight,countPassengers);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Бронювання здійснено!");
     }
     public void fullName() {
-        bookingController.displayAllBookingByPassenger(new Passenger(setName(),setSurname()));
+        bookingController.displayAllBookingByPassenger(new Passenger(getPassenger().getName(), getPassenger().getSurname()));
     }
     public void onlineScoreboard() {
         System.out.println("Список рейсів: ");
@@ -159,9 +182,12 @@ public class ConsoleClass {
         System.out.println("==========================================================================================");
     }
     public boolean authenticate() {
-        String username = setName();
+        String userName = setName();
+        String userSurname = setSurname();
         System.out.print("Введіть пароль: ");
         String password = scanner.nextLine().trim();
-        return true;
+
+        setPassenger(bookingController.getActivePassenger(userName, userSurname, password));
+        return getPassenger() != null;
     }
 }
