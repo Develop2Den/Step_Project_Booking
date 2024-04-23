@@ -93,13 +93,17 @@ public class ConsoleClass {
             String reservationId = scanner.nextLine();
             try {
                 count = Integer.parseInt(reservationId);
-                isValid = true;
+                if (count < 0) {
+                    System.out.println("\u001B[31m" + "Помилка: введіть додатне ціле число." + "\u001B[0m");
+                } else {
+                    isValid = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
             }
         } while (!isValid);
         bookingController.cancelBooking(count);
-//        flightController.bookSeats();
+//        flightController.bookSeats( , -1);
     }
     public int setCountPassengers() {
         int count = 0;
@@ -109,7 +113,11 @@ public class ConsoleClass {
             String passengerCount = scanner.nextLine();
             try {
                 count = Integer.parseInt(passengerCount);
-                isValid = true;
+                if (count < 0) {
+                    System.out.println("\u001B[31m" + "Помилка: введіть додатне ціле число." + "\u001B[0m");
+                } else {
+                    isValid = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
             }
