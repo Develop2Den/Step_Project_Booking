@@ -3,6 +3,7 @@ import DAO.DAOinterface.BookingDAO;
 
 import dto.BookingFlightDTO;
 import entity.Booking;
+import entity.Flight;
 import entity.Passenger;
 import service.serviseInterface.BookingService;
 import utils.Logger;
@@ -61,7 +62,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void cancelBooking(int id) {
-        bookingDAO.cancelBooking(bookingDAO.getBookingById(id));
+        bookingDAO.cancelBooking(getBookingById(id));
     }
     @Override
     public List<Passenger> getAllPassengers() {
@@ -91,5 +92,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getAllBookings() {
         return bookingDAO.getAllBooking();
+    }
+
+    @Override
+    public Booking getBookingById(int id) {
+        return bookingDAO.getBookingById(id);
+    }
+
+    @Override
+    public Flight getFlightByBookingId(int id) {
+        return getBookingById(id).getFlight();
     }
 }
