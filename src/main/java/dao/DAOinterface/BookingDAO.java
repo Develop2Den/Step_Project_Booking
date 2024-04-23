@@ -17,6 +17,4 @@ public interface BookingDAO {
     void saveBooking(Booking booking);
     void cancelBooking(Booking booking);
     List<Booking> getAllBooking();
-
-
 }
