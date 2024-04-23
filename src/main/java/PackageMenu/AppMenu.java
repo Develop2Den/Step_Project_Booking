@@ -28,6 +28,14 @@ public class AppMenu {
         boolean isTrue = true;
 
         while (isTrue) {
+            if (!isLogin) {
+                isLogin = consoleClass.authenticate();
+                if (!isLogin) {
+                    System.out.println("Невірний логін або пароль. Спробуйте ще раз.");
+                    continue;
+                }
+            }
+
             consoleClass.getNewMenu().forEach(System.out::println);
             System.out.println("Зробіть ваш вибір: ");
             String paragraph = scan.next().trim().toLowerCase();
@@ -49,10 +57,10 @@ public class AppMenu {
                     case "5":
                         consoleClass.fullName();
                         break;
-//                    case "6":
-//                        isLogin = false;
-//                        System.out.println("Вихід з облікового запису.");
-//                        break;
+                    case "6":
+                        isLogin = false;
+                        System.out.println("Вихід з облікового запису.");
+                        break;
                     case "7":
                         isTrue = false;
                         System.out.println("До побачення, будемо ради вас бачити знову!");

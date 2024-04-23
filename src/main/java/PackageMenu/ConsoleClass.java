@@ -6,13 +6,15 @@ import controller.BookingController;
 import controller.FlightController;
 import dto.BookingFlightDTO;
 import dto.SearchFlightDTO2;
+import entity.Booking;
 import entity.Flight;
 import entity.Passenger;
 import entity.enums.City;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import static utils.DateConverter.stringToDate;
 
 public class ConsoleClass {
@@ -20,25 +22,18 @@ public class ConsoleClass {
     private final BookingController bookingController;
     Scanner scanner = new Scanner(System.in);
     private List<String> newMenu = new Menu().menu.collect(Collectors.toList());
-    private int passengerCount;
-    public void setPassengerCount(int count) {
-        this.passengerCount = count;
-    }
-
-    public int getPassengerCount() {
-        return passengerCount;
-    }
+    private Passenger passenger;
 
     public ConsoleClass(FlightController flightController, BookingController bookingController) {
         this.flightController = flightController;
         this.bookingController = bookingController;
     }
 
-    public FlightController getFlightController() {
-        return flightController;
+    public Passenger getPassenger() {
+        return passenger;
     }
-    public BookingController getBookingController() {
-        return bookingController;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
     public List<String> getNewMenu() {
         return newMenu;
@@ -83,12 +78,26 @@ public class ConsoleClass {
             String reservationId = scanner.nextLine();
             try {
                 count = Integer.parseInt(reservationId);
-                isValid = true;
+                if (count < 0) {
+                    System.out.println("\u001B[31m" + "Помилка: введіть додатне ціле число." + "\u001B[0m");
+                } else {
+                    isValid = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
             }
         } while (!isValid);
-        bookingController.cancelBooking(count);
+            Flight flight = bookingController.getFlightByBookingId(count);
+            if (flight != null) {
+                try {
+                    flightController.bookSeats(flight, -1);
+                    bookingController.cancelBooking(count);
+                } catch (IOException e) {
+                    System.out.println("\u001B[31m" + "Сталася помилка при спробі скасувати бронювання." + "\u001B[0m");
+                }
+            } else {
+            System.out.println("\u001B[31m" + "Помилка: бронювання з ID " + count + " не знайдено." + "\u001B[0m");
+        }
     }
     public int setCountPassengers() {
         int count = 0;
@@ -98,7 +107,11 @@ public class ConsoleClass {
             String passengerCount = scanner.nextLine();
             try {
                 count = Integer.parseInt(passengerCount);
-                isValid = true;
+                if (count < 0) {
+                    System.out.println("\u001B[31m" + "Помилка: введіть додатне ціле число." + "\u001B[0m");
+                } else {
+                    isValid = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("\u001B[31m" + "Помилка: введіть ціле число." + "\u001B[0m");
             }
@@ -107,10 +120,16 @@ public class ConsoleClass {
     }
     public Date setDate() {
         Date date = null;
-        while (date == null) {
-            System.out.print("Введите дату в формате dd/MM/yyyy hh:mm: ");
-            String input = scanner.nextLine();
-            date = stringToDate(input);
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.println("Введіть дату рейсу (в форматі dd/MM/yyyy HH:mm): ");
+            String inputDateStr = scanner.nextLine();
+            try {
+                date = stringToDate(inputDateStr);
+                isValid = true;
+            } catch (ParseException e) {
+                System.out.println("Невірний формат дати! Повторіть введення.");
+            }
         }
         return date;
     }
@@ -149,24 +168,28 @@ public class ConsoleClass {
                     String surname = setSurname();
                     bookingController.createNewBooking(new BookingFlightDTO(name,surname, selectedFlight));
                 });
+        try {
+            flightController.bookSeats(selectedFlight,countPassengers);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Бронювання здійснено!");
     }
     public void fullName() {
-        bookingController.displayAllBookingByPassenger(new Passenger(setName(),setSurname()));
+        bookingController.displayAllBookingByPassenger(new Passenger(getPassenger().getName(), getPassenger().getSurname()));
     }
     public void onlineScoreboard() {
         System.out.println("Список рейсів: ");
         flightController.displayAllFlights();
         System.out.println("==========================================================================================");
     }
+    public boolean authenticate() {
+        String userName = setName();
+        String userSurname = setSurname();
+        System.out.print("Введіть пароль: ");
+        String password = scanner.nextLine().trim();
 
-//    public boolean authenticate() {
-//        Map<String, String> users = null;
-//        System.out.print("Введіть логин: ");
-//        String username = scanner.nextLine().trim();
-//        System.out.print("Введіть пароль: ");
-//        String password = scanner.nextLine().trim();
-//
-//        return users.containsKey(username) && users.get(username).equals(password);
-//    }
+        setPassenger(bookingController.getActivePassenger(userName, userSurname, password));
+        return getPassenger() != null;
+    }
 }
