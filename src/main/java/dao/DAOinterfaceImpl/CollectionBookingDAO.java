@@ -33,7 +33,7 @@ public class CollectionBookingDAO implements BookingDAO {
         Optional<Booking> booking = bookings.stream()
                 .filter(bk -> bk != null && bk.getId() == id)
                 .findFirst();
-        Logger.info("Отримано бронювання по ID");
+        Logger.info("Отримано бронювання по ID " + id);
         return booking.orElse(null);
     }
 
@@ -45,13 +45,13 @@ public class CollectionBookingDAO implements BookingDAO {
         int index = bookings.indexOf(booking);
         if (index >= 0) {
             bookings.set(index, booking);
-            Logger.info("Бронювання змінено");
+            Logger.info("Бронювання з ID " + index + " змінено");
         } else {
             bookings.add(booking);
-            Logger.info("Бронювання додано то списку");
+            Logger.info("Бронювання з ID " + booking.getId() + " додано то списку");
         }
         bookingLoaderBin.loadData(bookings);
-        Logger.info("Бронювання успішно збережено в БД");
+        Logger.info("Бронювання з ID " + booking.getId() + " успішно збережено в БД");
     }
 
     @Override
@@ -60,9 +60,9 @@ public class CollectionBookingDAO implements BookingDAO {
             Logger.error("Невдала спроба видалення бронювання");
         } else {
             bookings.remove(booking);
-            Logger.info("Бронювання видалено зі списку");
+            Logger.info("Бронювання з ID " + booking.getId() + " видалено зі списку");
             bookingLoaderBin.loadData(bookings);
-            Logger.info("Бронювання видалено з БД");
+            Logger.info("Бронювання з ID " + booking.getId() + " видалено з БД");
         }
     }
 

@@ -41,14 +41,11 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = new Booking(passenger, bookingFlightDTO.getFlight(), createBookingId());
         passenger.addBooking(booking);
         bookingDAO.saveBooking(booking);
-        Logger.info("Бронювання успішно створено");
     }
 
     @Override
     public List<Booking> getAllBookingByPassenger(Passenger passenger) {
-        System.out.println(getAllPassengers());
-        System.out.println(getAllBookings());
-        Logger.info("Пошук пасажира в БД");
+        Logger.info("Пошук пасажира " + passenger + " в БД");
         return bookingDAO.getAllBooking().stream()
                 .filter(booking -> booking != null && booking.getPassenger().equals(passenger))
                 .toList();
@@ -81,9 +78,11 @@ public class BookingServiceImpl implements BookingService {
                         .filter(passenger -> passenger != null && passenger.equals(activePassenger))
                                 .findFirst();
         if (exceptPassenger.isPresent()){
+            Logger.info("Знайдено пасажира " + exceptPassenger + " в БД");
             return exceptPassenger.get();
         }
         else {
+            Logger.info("Створено та додано нового пасажира  " + activePassenger + " в БД");
             System.out.println(name + ", Ви новий пасажир. Вітаємо!");
             return activePassenger;
         }
@@ -102,5 +101,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Flight getFlightByBookingId(int id) {
         return getBookingById(id).getFlight();
+    }
+
+    @Override
+    public List<Integer> getBookingsIdsByPassenger(Passenger passenger) {
+        return getAllBookingByPassenger(passenger).stream()
+                .filter(Objects::nonNull)
+                .map(Booking::getId)
+                .toList();
     }
 }

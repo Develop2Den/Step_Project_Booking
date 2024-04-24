@@ -4,6 +4,7 @@ import DAO.DAOinterface.FlightDAO;
 import dto.SearchFlightDTO2;
 import entity.Flight;
 import service.serviseInterface.FlightService;
+import utils.Logger;
 import utils.fileLoader.FileLoaderBin;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<Flight> getAllFlightsForSpecificDay() {
+        Logger.info("Отримати рейси за поточний день");
         Date currentDate = new Date();
         int expectedYear = currentDate.getYear() + 1900;
         int expectedMonth = currentDate.getMonth() + 1;
@@ -41,6 +43,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public Flight getFlightByFlightNumber(String flightNumber) {
+        Logger.info("Отримати рейс за номером");
         return flightsDAO.getFlightByFlightNumber(flightNumber);
     };
 
@@ -56,21 +59,25 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void saveFlight(Flight flight) {
+        Logger.info("Зберегти рейс");
         flightsDAO.saveFlight(flight);
     };
 
     @Override
     public int getAllSeats(Flight flight) {
+        Logger.info("Отримати всі місця");
         return flightsDAO.getAllSeats(flight);
     };
 
     @Override
     public int getAvailableSeats(Flight flight) {
+        Logger.info("Отримати вільні місця");
         return flightsDAO.getAvailableSeats(flight);
     };
 
     @Override
     public int getBookedSeats(Flight flight) {
+        Logger.info("Отримати заброньовані місця");
         return flightsDAO.getBookedSeats(flight);
     };
 
@@ -81,17 +88,20 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void displayAllFlights() {
+        Logger.info("Вивести на екран всі рейси");
         List<Flight> flights = this.getAllFlightsForSpecificDay();
         flights.forEach(System.out::println);
     };
 
     @Override
     public void displayAllFlights(List<Flight> flights) {
+        Logger.info("Вивести на екран рейси");
         flightsDAO.displayAllFlights(flights);
     }
 
     @Override
     public void loadData() {
+        Logger.info("Завантажити рейси");
         FileLoaderBin fileLoaderBin = new FileLoaderBin();
         Set<Flight> objects;
         try {
@@ -99,18 +109,21 @@ public class FlightServiceImpl implements FlightService {
             flightsDAO.loadData(objects);
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            Logger.error("Невдала спроба завантаження файлу");
             throw new RuntimeException();
         }
     }
 
     @Override
     public void sendData(String filePath) {
+        Logger.info("Записати рейси в файл");
         FileLoaderBin fileLoaderBin = new FileLoaderBin();
         try {
             Set<Flight> flights = flightsDAO.generateRandomFlights();
             fileLoaderBin.writeFile(filePath, flights);
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            Logger.error("Невдала спроба запису файлу");
         }
     }
 
@@ -119,10 +132,12 @@ public class FlightServiceImpl implements FlightService {
         Set<Flight> existingFlights = flightsDAO.getAllFlights();
         FileLoaderBin fileLoaderBin = new FileLoaderBin();
         fileLoaderBin.writeFile("flights.bin", existingFlights);
+        Logger.info("Рейси збережено");
     }
 
     @Override
     public List<Flight> searchFlight(SearchFlightDTO2 searchFlightDTO) {
+        Logger.info("Пошук рейса");
         int expectedYear = searchFlightDTO.getDate().getYear() + 1900;
         int expectedMonth = searchFlightDTO.getDate().getMonth() + 1;
         List<Flight> result = flightsDAO.getAllFlights()
@@ -148,6 +163,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public String getSpecificFlightDetails(Flight flight) {
+        Logger.info("Отримати деталі рейса");
         return flightsDAO.getSpecificFlightDetails(flight);
     }
 
@@ -156,5 +172,6 @@ public class FlightServiceImpl implements FlightService {
         Flight flightToBeUpdated = flightsDAO.getFlightByFlightNumber(flight.getFlightNumber());
         flightToBeUpdated.updateSeats(seats);
         saveData();
+        Logger.info("Заброньовані місця");
     }
 }
