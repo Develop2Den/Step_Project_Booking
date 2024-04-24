@@ -35,27 +35,25 @@ public class ConsoleClassTest {
     BookingServiceImpl bookingService = new BookingServiceImpl(bookingDAO);
     BookingController bookingController = new BookingController(bookingService);
 
-//    private final InputStream originalSystemIn = System.in;
-//    private ConsoleClass console;
-//
-//    @Before
-//    public void setUp() {
-//        String input = "AMSTERDAM\n24/04/2024 10:00\n3\n";
-//        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-//        System.setIn(inputStream);
-//
-//        FlightController flightController = mock(FlightController.class);
-//        BookingController bookingController = mock(BookingController.class);
-//
-//        console = new ConsoleClass(flightController, bookingController);
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        System.setIn(originalSystemIn);
-//    }
+    private final InputStream originalSystemIn = System.in;
+    private ConsoleClass console;
 
+    @Before
+    public void setUp() {
+        String input = "3\n";
 
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+
+        FlightController flightController = mock(FlightController.class);
+        BookingController bookingController = mock(BookingController.class);
+
+        console = new ConsoleClass(flightController, bookingController);
+    }
+    @After
+    public void tearDown() {
+        System.setIn(originalSystemIn);
+    }
     @Test
     public void testSetName() {
         InputStream originalIn = System.in;
@@ -70,7 +68,6 @@ public class ConsoleClassTest {
             System.setIn(originalIn);
         }
     }
-
     @Test
     public void testSetSurName() {
         InputStream originalIn = System.in;
@@ -85,22 +82,9 @@ public class ConsoleClassTest {
             System.setIn(originalIn);
         }
     }
-
-//    @Test
-//    public void testFlightDetails() throws InvalidMenuItemException {
-//        Flight dummyFlight = new Flight();
-//        dummyFlight.setDestination(City.valueOf("AMSTERDAM"));
-//        dummyFlight.setDate(dummyFlight.getDate());
-//        List<Flight> flightList = Arrays.asList(dummyFlight);
-//        when(console.getFlightController().searchFlight(any())).thenReturn(flightList);
-//
-//        console.flightDetails();
-//
-//        // Проверяем, что методы setName() и setSurname() вызывались нужное количество раз
-//        verify(console, times(3)).setName();
-//        verify(console, times(3)).setSurname();
-//
-//        // Проверяем, что метод createNewBooking() вызывался нужное количество раз с правильными параметрами
-//        verify(console.getBookingController(), times(3)).createNewBooking(any());
-//    }
+    @Test
+    public void testSetCountPassengers() {
+        int count = console.setCountPassengers();
+        assertEquals(3, count);
+    }
 }

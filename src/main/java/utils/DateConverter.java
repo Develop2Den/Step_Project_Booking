@@ -27,15 +27,8 @@ public class DateConverter {
         return birthDateLocal.format(formatter);
     }
 
-    public static Date stringToDate(String date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        Date newDate = null;
-        try {
-            newDate = dateFormat.parse(date);
-            System.out.println(newDate);
-        } catch (ParseException e) {
-            System.out.println("Невірний формат дати!");
-        }
-        return newDate;
+    public static Date stringToDate(String date) throws ParseException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return dateFormat.parse(date);
     }
 }

@@ -23,4 +23,6 @@ public interface BookingService {
     List<Booking> getAllBookings();
     Booking getBookingById(int id);
     Flight getFlightByBookingId(int id);
+    List<Integer> getBookingsIdsByPassenger(Passenger passenger);
+
 }

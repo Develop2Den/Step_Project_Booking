@@ -2,6 +2,7 @@ package entity;
 
 import ErrorException.PlaneException;
 import entity.enums.PlaneModel;
+import utils.Logger;
 import utils.general.Shared;
 
 import java.io.Serializable;
@@ -58,7 +59,10 @@ public class Plane implements Serializable {
         if (requestedSeats <= 0) throw new PlaneException(errorAmountShouldBeGreaterThan0, requestedSeats);
         if (requestedSeats <= freeSeats) {
             this.bookedSeats = requestedSeats;
-        } else throw new PlaneException(errorNotEnoughFreeSeats, freeSeats);
+        } else {
+            Logger.error("Невдала спроба змінити місця рейсу");
+            throw new PlaneException(errorNotEnoughFreeSeats, freeSeats);
+        }
     }
 
     @Override
@@ -73,6 +77,9 @@ public class Plane implements Serializable {
     public void updateSeats(int requiredBookedSeats) {
         if (requiredBookedSeats <= getAvailableSeats())
         this.bookedSeats += requiredBookedSeats;
-        else throw new PlaneException("No available seats in this plane", requiredBookedSeats);
+        else {
+            Logger.error("Невдала спроба змінити місця рейсу");
+            throw new PlaneException("No available seats in this plane", requiredBookedSeats);
+        }
     }
 }
