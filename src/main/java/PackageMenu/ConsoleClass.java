@@ -76,6 +76,7 @@ public class ConsoleClass {
     public void setReservationId() {
         int count = 0;
         boolean isValid = false;
+
         do {
             System.out.println("Введіть ID бронювання: ");
             String reservationId = scanner.nextLine();
@@ -91,6 +92,8 @@ public class ConsoleClass {
             }
         } while (!isValid);
             Flight flight = bookingController.getFlightByBookingId(count);
+            List <Integer> list =  bookingController.getBookingsIdsByPassenger(bookingController.getBookingById(count).getPassenger());
+            System.out.println(list.toString());
             if (flight != null) {
                 try {
                     flightController.bookSeats(flight, -1);
