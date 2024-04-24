@@ -4,6 +4,9 @@ import entity.Booking;
 import entity.Flight;
 import entity.Passenger;
 import service.serviseInterface.BookingService;
+
+import java.util.List;
+
 /**
  * Controller class responsible for handling user interactions related to bookings.
  * It delegates calls to the BookingService to process business logic operations.
@@ -38,5 +41,8 @@ public class BookingController {
     }
     public Flight getFlightByBookingId(int id){
         return bookingService.getFlightByBookingId(id);
+    }
+    public List<Integer> getBookingsIdsByPassenger(Passenger passenger){
+        return bookingService.getBookingsIdsByPassenger(passenger);
     }
 }
